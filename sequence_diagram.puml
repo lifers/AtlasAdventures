@@ -1,0 +1,114 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+'Outside
+actor Player
+
+'App
+participant Main
+participant QuizUseCaseFactory
+
+'View
+participant ViewManager
+participant QuizView
+
+'Interface Adapters (General)
+participant ViewManagerModel
+participant ViewModel
+
+'Interface Adapters (Quiz)
+participant QuizViewModel
+participant QuizPresenter
+participant QuizController
+participant JMapViewerTree
+
+'Use Case
+participant QuizInteractor
+
+Player -> Main: main
+activate Main #yellow
+
+Main -> ViewManager: <<create>>
+activate ViewManager
+
+ViewManager -> ViewManagerModel: addPropertyChangeListener
+activate ViewManagerModel
+
+ViewManager <-- ViewManagerModel
+deactivate ViewManagerModel
+
+Main <-- ViewManager
+deactivate ViewManager
+
+Main -> QuizViewModel: <<create>>
+activate QuizViewModel
+
+QuizViewModel -> ViewModel: <<create>>
+activate ViewModel
+
+QuizViewModel <-- ViewModel
+deactivate ViewModel
+
+Main <-- QuizViewModel
+deactivate QuizViewModel
+
+Main -> QuizUseCaseFactory: create
+activate QuizUseCaseFactory
+
+QuizUseCaseFactory -> QuizUseCaseFactory: createQuizUseCase
+activate QuizUseCaseFactory
+
+QuizUseCaseFactory -> QuizPresenter: <<create>>
+activate QuizPresenter
+
+QuizUseCaseFactory <-- QuizPresenter
+deactivate QuizPresenter
+
+QuizUseCaseFactory -> QuizInteractor: <<create>>
+activate QuizInteractor
+
+QuizUseCaseFactory <-- QuizInteractor
+deactivate QuizInteractor
+
+QuizUseCaseFactory -> QuizController: <<create>>
+activate QuizController
+
+QuizUseCaseFactory <-- QuizController
+deactivate QuizController
+
+QuizUseCaseFactory <-- QuizUseCaseFactory
+deactivate QuizUseCaseFactory
+
+QuizUseCaseFactory -> QuizView: <<create>>
+activate QuizView
+
+QuizView -> QuizViewModel: addPropertyChangeListener
+activate QuizViewModel
+
+QuizView <-- QuizViewModel
+deactivate QuizViewModel
+
+QuizView -> JMapViewerTree: <<create>>
+activate JMapViewerTree
+
+QuizView <-- JMapViewerTree
+deactivate JMapViewerTree
+
+QuizUseCaseFactory <-- QuizView
+deactivate QuizView
+
+Main <-- QuizUseCaseFactory
+deactivate QuizUseCaseFactory
+
+Main -> ViewManagerModel: firePropertyChanged
+activate ViewManagerModel
+
+Main <-- ViewManagerModel
+deactivate ViewManagerModel
+
+Player <-- Main
+deactivate Main
+
+@enduml
