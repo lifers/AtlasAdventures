@@ -1,24 +1,42 @@
 package app;
 
-import data_access.FileUserDataAccessObject;
-import entity.CommonUserFactory;
-import interface_adapter.clear_users.ClearViewModel;
-import interface_adapter.login.LoginViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.signup.SignupViewModel;
+import com.formdev.flatlaf.FlatDarkLaf;
+import data_access.MapDataAccessObject;
 import interface_adapter.ViewManagerModel;
-import use_case.login.LoginUserDataAccessInterface;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
+import interface_adapter.question.QuestionViewModel;
 import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        FlatDarkLaf.setup();
 
+        var application = new JFrame("AtlasAdventures");
+        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        application.setSize(400, 400);
+
+        var cardLayout = new CardLayout();
+
+        var views = new JPanel(cardLayout);
+        application.add(views);
+
+        var viewManagerModel = new ViewManagerModel();
+
+        new ViewManager(views, cardLayout, viewManagerModel);
+
+        var questionViewModel = new QuestionViewModel();
+
+        var mapDataAccessObject = new MapDataAccessObject();
+
+        var questionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, mapDataAccessObject);
+        views.add(questionView);
+
+        viewManagerModel.setActiveView(questionView);
+        viewManagerModel.firePropertyChanged();
+
+        application.pack();
+        application.setVisible(true);
     }
 }
