@@ -8,27 +8,36 @@ actor Player
 
 'App
 participant Main
-participant QuizUseCaseFactory
+participant QuestionUseCaseFactory
 
 'View
 participant ViewManager
-participant QuizView
+participant QuestionView
 
 'Interface Adapters (General)
 participant ViewManagerModel
 participant ViewModel
 
-'Interface Adapters (Quiz)
-participant QuizViewModel
-participant QuizPresenter
-participant QuizController
+'Interface Adapters (Question)
+participant QuestionViewModel
+participant QuestionPresenter
+participant QuestionController
 participant JMapViewerTree
 
 'Use Case
-participant QuizInteractor
+participant QuestionInteractor
+
+'Data Access
+participant MapDataAccessObject
 
 Player -> Main: main
 activate Main #yellow
+
+Main -> ViewManagerModel: <<create>>
+activate ViewManagerModel
+
+Main <-- ViewManagerModel
+deactivate ViewManagerModel
 
 Main -> ViewManager: <<create>>
 activate ViewManager
@@ -42,65 +51,71 @@ deactivate ViewManagerModel
 Main <-- ViewManager
 deactivate ViewManager
 
-Main -> QuizViewModel: <<create>>
-activate QuizViewModel
+Main -> QuestionViewModel: <<create>>
+activate QuestionViewModel
 
-QuizViewModel -> ViewModel: <<create>>
+QuestionViewModel -> ViewModel: <<create>>
 activate ViewModel
 
-QuizViewModel <-- ViewModel
+QuestionViewModel <-- ViewModel
 deactivate ViewModel
 
-Main <-- QuizViewModel
-deactivate QuizViewModel
+Main <-- QuestionViewModel
+deactivate QuestionViewModel
 
-Main -> QuizUseCaseFactory: create
-activate QuizUseCaseFactory
+Main -> MapDataAccessObject: <<create>>
+activate MapDataAccessObject
 
-QuizUseCaseFactory -> QuizUseCaseFactory: createQuizUseCase
-activate QuizUseCaseFactory
+Main <-- MapDataAccessObject
+deactivate MapDataAccessObject
 
-QuizUseCaseFactory -> QuizPresenter: <<create>>
-activate QuizPresenter
+Main -> QuestionUseCaseFactory: create
+activate QuestionUseCaseFactory
 
-QuizUseCaseFactory <-- QuizPresenter
-deactivate QuizPresenter
+QuestionUseCaseFactory -> QuestionUseCaseFactory: createQuestionUseCase
+activate QuestionUseCaseFactory
 
-QuizUseCaseFactory -> QuizInteractor: <<create>>
-activate QuizInteractor
+QuestionUseCaseFactory -> QuestionPresenter: <<create>>
+activate QuestionPresenter
 
-QuizUseCaseFactory <-- QuizInteractor
-deactivate QuizInteractor
+QuestionUseCaseFactory <-- QuestionPresenter
+deactivate QuestionPresenter
 
-QuizUseCaseFactory -> QuizController: <<create>>
-activate QuizController
+QuestionUseCaseFactory -> QuestionInteractor: <<create>>
+activate QuestionInteractor
 
-QuizUseCaseFactory <-- QuizController
-deactivate QuizController
+QuestionUseCaseFactory <-- QuestionInteractor
+deactivate QuestionInteractor
 
-QuizUseCaseFactory <-- QuizUseCaseFactory
-deactivate QuizUseCaseFactory
+QuestionUseCaseFactory -> QuestionController: <<create>>
+activate QuestionController
 
-QuizUseCaseFactory -> QuizView: <<create>>
-activate QuizView
+QuestionUseCaseFactory <-- QuestionController
+deactivate QuestionController
 
-QuizView -> QuizViewModel: addPropertyChangeListener
-activate QuizViewModel
+QuestionUseCaseFactory <-- QuestionUseCaseFactory
+deactivate QuestionUseCaseFactory
 
-QuizView <-- QuizViewModel
-deactivate QuizViewModel
+QuestionUseCaseFactory -> QuestionView: <<create>>
+activate QuestionView
 
-QuizView -> JMapViewerTree: <<create>>
+QuestionView -> QuestionViewModel: addPropertyChangeListener
+activate QuestionViewModel
+
+QuestionView <-- QuestionViewModel
+deactivate QuestionViewModel
+
+QuestionView -> JMapViewerTree: <<create>>
 activate JMapViewerTree
 
-QuizView <-- JMapViewerTree
+QuestionView <-- JMapViewerTree
 deactivate JMapViewerTree
 
-QuizUseCaseFactory <-- QuizView
-deactivate QuizView
+QuestionUseCaseFactory <-- QuestionView
+deactivate QuestionView
 
-Main <-- QuizUseCaseFactory
-deactivate QuizUseCaseFactory
+Main <-- QuestionUseCaseFactory
+deactivate QuestionUseCaseFactory
 
 Main -> ViewManagerModel: firePropertyChanged
 activate ViewManagerModel
