@@ -29,9 +29,9 @@ public class MainMenuFactory {
                                                         SPQuizViewModel spQuizViewModel,
                                                         QuestionViewModel questionViewModel,
                                                         DummyDAO dummyDAO) {
-        SPQuizOutputBoundary spQuisPresenter = new SPQuizPresenter(viewManagerModel, spQuizViewModel, questionViewModel);
+        SPQuizOutputBoundary spQuizPresenter = new SPQuizPresenter(viewManagerModel, spQuizViewModel, questionViewModel);
 
-        SPQuizInputBoundary spQuizInteractor = new TestSPQuizInteractor(spQuisPresenter, dummyDAO);
+        SPQuizInputBoundary spQuizInteractor = new TestSPQuizInteractor(spQuizPresenter, dummyDAO);
 
         return new SPQuizController(spQuizInteractor);
     }
