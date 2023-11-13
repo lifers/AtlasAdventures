@@ -49,7 +49,7 @@ public class Main {
         QuestionView questionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, mapDataAccessObject);
         views.add(questionView);
 
-        MainMenuView mainMenuView = SPUseCaseFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
+        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
         views.add(mainMenuView);
 
         viewManagerModel.setActiveView(mainMenuView);
