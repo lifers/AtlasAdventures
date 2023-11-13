@@ -16,7 +16,9 @@ public class SPQuizPresenter implements SPQuizOutputBoundary {
 
     @Override
     public void prepareSuccessView() {
-
+        // For the following to work, the ViewModel viewName must be the same as the View viewName
+        viewManagerModel.setActiveView(questionViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
