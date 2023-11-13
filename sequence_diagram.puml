@@ -22,6 +22,7 @@ participant ViewModel
 participant QuestionViewModel
 participant QuestionPresenter
 participant QuestionController
+participant QuestionState
 participant JMapViewerTree
 
 'Use Case
@@ -59,6 +60,12 @@ activate ViewModel
 
 QuestionViewModel <-- ViewModel
 deactivate ViewModel
+
+QuestionViewModel -> QuestionState: <<create>>
+activate QuestionState
+
+QuestionViewModel <-- QuestionState
+deactivate QuestionState
 
 Main <-- QuestionViewModel
 deactivate QuestionViewModel
