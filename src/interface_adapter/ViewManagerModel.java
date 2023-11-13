@@ -6,22 +6,21 @@ import java.beans.PropertyChangeSupport;
 
 public class ViewManagerModel {
 
-    private JPanel activeView;
+    private String activeViewName;
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public JPanel getActiveView() {
-        return activeView;
+    public String getActiveView() {
+        return activeViewName;
     }
 
-    public void setActiveView(JPanel activeView) {
-        this.activeView = activeView;
+    public void setActiveView(String activeViewName) {
+        this.activeViewName = activeViewName;
     }
 
-    // This is what the Signup Presenter will call to let the ViewModel know
-    // to alert the View
+    // This is what a Presenter will call to let the ViewModel know to alert the View
     public void firePropertyChanged() {
-        support.firePropertyChange("view", null, this.activeView);
+        support.firePropertyChange("view", null, this.activeViewName);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

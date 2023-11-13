@@ -47,12 +47,12 @@ public class Main {
         DummyDAO dummyDAO = new DummyDAO();
 
         QuestionView questionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, mapDataAccessObject);
-        views.add(questionView);
+        views.add(questionView, questionView.viewName);
 
         MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
-        views.add(mainMenuView);
+        views.add(mainMenuView, mainMenuView.viewName);
 
-        viewManagerModel.setActiveView(mainMenuView);
+        viewManagerModel.setActiveView(mainMenuView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

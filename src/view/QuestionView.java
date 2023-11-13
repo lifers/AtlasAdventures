@@ -19,6 +19,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class QuestionView extends JPanel implements ActionListener, PropertyChangeListener, JMapViewerEventListener {
+    public final String viewName = "AnswerQuestionView";
     private final QuestionController questionController;
     private final QuestionViewModel questionViewModel;
     private final JMapViewerTree treeMap;

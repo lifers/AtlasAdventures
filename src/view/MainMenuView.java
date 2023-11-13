@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class MainMenuView extends JPanel implements PropertyChangeListener {
-    public final String viewName = "main menu";
+    public final String viewName = "MainMenuView";
     private final SPQuizViewModel spQuizViewModel;
     private final SPQuizController spQuizController;
     private final JButton spQuiz;

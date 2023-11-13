@@ -10,7 +10,7 @@ public class SPQuizViewModel extends ViewModel {
     public static final String SPQUIZ_BUTTON_LABEL = "Single Player";
 
     public SPQuizViewModel() {
-        super("start_sp_quiz");
+        super("StartSPQuiz");
     }
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
