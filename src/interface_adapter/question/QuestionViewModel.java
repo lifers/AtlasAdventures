@@ -13,7 +13,7 @@ public class QuestionViewModel extends ViewModel {
     private QuestionState state = new QuestionState();
 
     public QuestionViewModel() {
-        super("Question");
+        super("AnswerQuestionView");
     }
 
     public QuestionState getState() {

@@ -1,9 +1,13 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import data_access.DummyDAO;
 import data_access.MapDataAccessObject;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import interface_adapter.question.QuestionViewModel;
+import view.MainMenuView;
+import view.QuestionView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -11,29 +15,44 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        FlatDarkLaf.setup();
+        // Build the main program window, the main panel containing the
+        // various cards, and the layout, and stitch them together.
 
-        var application = new JFrame("AtlasAdventures");
+        // The main application window.
+        FlatDarkLaf.setup();
+        JFrame application = new JFrame("AtlasAdventures");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         application.setSize(400, 400);
 
-        var cardLayout = new CardLayout();
+        CardLayout cardLayout = new CardLayout();
 
-        var views = new JPanel(cardLayout);
+        // The various View objects. Only one view is visible at a time.
+        JPanel views = new JPanel(cardLayout);
         application.add(views);
 
-        var viewManagerModel = new ViewManagerModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
 
         new ViewManager(views, cardLayout, viewManagerModel);
 
-        var questionViewModel = new QuestionViewModel();
+        // The data for the views, such as username and password, are in the ViewModels.
+        // This information will be changed by a presenter object that is reporting the
+        // results from the use case. The ViewModels are observable, and will
+        // be observed by the Views.
 
-        var mapDataAccessObject = new MapDataAccessObject();
+        SPQuizViewModel spQuizViewModel = new SPQuizViewModel();
+        QuestionViewModel questionViewModel = new QuestionViewModel();
 
-        var questionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, mapDataAccessObject);
-        views.add(questionView);
+        MapDataAccessObject mapDataAccessObject = new MapDataAccessObject();
+        // Dummy data access object, to be replaced with actual DAO
+        DummyDAO dummyDAO = new DummyDAO();
 
-        viewManagerModel.setActiveView(questionView);
+        QuestionView questionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, mapDataAccessObject);
+        views.add(questionView, questionView.viewName);
+
+        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
+        views.add(mainMenuView, mainMenuView.viewName);
+
+        viewManagerModel.setActiveView(mainMenuView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
