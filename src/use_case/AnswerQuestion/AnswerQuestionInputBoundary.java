@@ -1,5 +1,6 @@
 package use_case.AnswerQuestion;
 
 public interface AnswerQuestionInputBoundary {
-    public void execute(AnswerQuestionInputData inputData);
+    void answer(AnswerQuestionInputData inputData);
+    void nextQuestion(NextQuestionInputData inputData);
 }
