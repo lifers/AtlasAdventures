@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
 import interface_adapter.start_sp_quiz.SPQuizState;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
@@ -20,6 +21,7 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
     private final JButton spQuiz;
     private final JButton mpQuiz;
     private final JButton profile;
+    private final JButton leaderboard;
 
     public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel) {
         this.spQuizController = spQuizController;
@@ -36,6 +38,8 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
         buttons.add(mpQuiz);
         profile = new JButton("Unimplemented Profile");
         buttons.add(profile);
+        leaderboard = new JButton(LeaderboardViewModel.LEADERBOARD_BUTTON_LABEL);
+        buttons.add(leaderboard);
 
         spQuiz.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
