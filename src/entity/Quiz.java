@@ -12,11 +12,14 @@ public class Quiz {
         this.length = questions.size();
     }
 
-    public Question getCurrQuestion() throws IndexOutOfBoundsException {
+    public Question getCurrQuestion() {
         return questions.get(currQuestionIndex);
     }
 
-    public void nextQuestion() {
+    public void nextQuestion() throws IndexOutOfBoundsException {
         currQuestionIndex += 1;
+        if (currQuestionIndex == length) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }
