@@ -5,12 +5,12 @@ import entity.Quiz;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import java.lang.Math;
 
-class AnswerQuestionInteractor implements AnswerQuestionInputBoundary {
+public class AnswerQuestionInteractor implements AnswerQuestionInputBoundary {
 
 
     final AnswerQuestionOutputBoundary AnswerQuestionPresenter;
 
-    AnswerQuestionInteractor(AnswerQuestionOutputBoundary answerQuestionPresenter) {
+    public AnswerQuestionInteractor(AnswerQuestionOutputBoundary answerQuestionPresenter) {
         AnswerQuestionPresenter = answerQuestionPresenter;
     }
 
