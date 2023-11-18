@@ -1,5 +1,6 @@
 package use_case.AnswerQuestion;
 
+import entity.Quiz;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 class AnswerQuestionInputData {

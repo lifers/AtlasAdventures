@@ -1,20 +1,35 @@
 package use_case.AnswerQuestion;
 
+import entity.Question;
+import entity.Quiz;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import java.lang.Math;
 
 class AnswerQuestionInteractor implements AnswerQuestionInputBoundary {
+
+
+    final AnswerQuestionOutputBoundary AnswerQuestionPresenter;
+
+    AnswerQuestionInteractor(AnswerQuestionOutputBoundary answerQuestionPresenter) {
+        AnswerQuestionPresenter = answerQuestionPresenter;
+    }
+
+    // ADD PRESENTER COMPONENTS AND A CONSTRUCTOR
     @Override
     public void execute(AnswerQuestionInputData inputData) {
         Quiz quiz = inputData.quiz;
         Coordinate guess = inputData.coordinate;
 
-        Question currentQuestionQuestion = quiz.getCurrentQuestion();
+        Question currentQuestionQuestion = quiz.getCurrQuestion();
         Coordinate solution = currentQuestionQuestion.getSolution();
 
         double score = calculateScore(solution, guess);
 
-        AnswerQuestionOutputData outputData =
+        quiz.nextQuestion();
+
+        AnswerQuestionOutputData outputData = new AnswerQuestionOutputData(score);
+
+        AnswerQuestionPresenter.prepareSuccessView(outputData);
     }
 
     public double calculateScore(Coordinate solution, Coordinate guess){
