@@ -19,4 +19,6 @@ public class Question {
     public int getScore() {
         return score;
     }
+
+    public Coordinate getSolution() { return solution; }
 }
