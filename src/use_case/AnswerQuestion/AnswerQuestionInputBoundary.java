@@ -1,5 +1,5 @@
 package use_case.AnswerQuestion;
 
-interface AnswerQuestionInputBoundary {
+public interface AnswerQuestionInputBoundary {
     public void execute(AnswerQuestionInputData inputData);
 }

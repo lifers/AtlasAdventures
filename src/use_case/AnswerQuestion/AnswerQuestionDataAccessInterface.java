@@ -1,5 +1,5 @@
 package use_case.AnswerQuestion;
 
-class AnswerQuestionDataAccessInterface {
+public class AnswerQuestionDataAccessInterface {
 
 }

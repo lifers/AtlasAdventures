@@ -1,6 +1,6 @@
 package use_case.AnswerQuestion;
 
-class AnswerQuestionOutputData {
+public class AnswerQuestionOutputData {
     double score;
 
     public AnswerQuestionOutputData(Double score){
