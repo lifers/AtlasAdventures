@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
 import interface_adapter.start_sp_quiz.SPQuizState;
@@ -18,15 +19,21 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
     public final String viewName = "MainMenuView";
     private final SPQuizViewModel spQuizViewModel;
     private final SPQuizController spQuizController;
+    private final LeaderboardViewModel leaderboardViewModel;
+    private final LeaderboardController leaderboardController;
     private final JButton spQuiz;
     private final JButton mpQuiz;
     private final JButton profile;
     private final JButton leaderboard;
 
-    public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel) {
+    public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel,
+                        LeaderboardController leaderboardController, LeaderboardViewModel leaderboardViewModel) {
         this.spQuizController = spQuizController;
         this.spQuizViewModel = spQuizViewModel;
         spQuizViewModel.addPropertyChangeListener(this);
+        this.leaderboardController = leaderboardController;
+        this.leaderboardViewModel = leaderboardViewModel;
+        leaderboardViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Main Menu");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -47,6 +54,17 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(spQuiz)) {
                             spQuizController.execute();
+                        }
+                    }
+                }
+        );
+
+        leaderboard.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(leaderboard)) {
+                            leaderboardController.execute();
                         }
                     }
                 }
