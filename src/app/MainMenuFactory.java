@@ -1,8 +1,8 @@
 package app;
 
 import data_access.DummyDAO;
+import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.question.QuestionViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
 import interface_adapter.start_sp_quiz.SPQuizPresenter;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
@@ -17,7 +17,7 @@ public class MainMenuFactory {
     public static MainMenuView create(
             ViewManagerModel viewManagerModel,
             SPQuizViewModel spQuizViewModel,
-            QuestionViewModel questionViewModel,
+            AnswerQuestionViewModel questionViewModel,
             DummyDAO dummyDAO) {
 
         SPQuizController spQuizController = createSPQuizUseCase(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
@@ -27,7 +27,7 @@ public class MainMenuFactory {
 
     private static SPQuizController createSPQuizUseCase(ViewManagerModel viewManagerModel,
                                                         SPQuizViewModel spQuizViewModel,
-                                                        QuestionViewModel questionViewModel,
+                                                        AnswerQuestionViewModel questionViewModel,
                                                         DummyDAO dummyDAO) {
         SPQuizOutputBoundary spQuizPresenter = new SPQuizPresenter(viewManagerModel, spQuizViewModel, questionViewModel);
 

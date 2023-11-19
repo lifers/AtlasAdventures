@@ -1,26 +1,25 @@
-package interface_adapter.question;
+package interface_adapter.answer_question;
 
 import interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class QuestionViewModel extends ViewModel {
-
+public class AnswerQuestionViewModel extends ViewModel {
     public static final String SUBMIT_BUTTON_LABEL = "Submit";
     public static final String NEXT_BUTTON_LABEL = "Next";
+    public static final String START_BUTTON_LABEL = "Start";
+    private AnswerQuestionState state;
 
-    private QuestionState state = new QuestionState();
-
-    public QuestionViewModel() {
+    public AnswerQuestionViewModel() {
         super("AnswerQuestionView");
     }
 
-    public QuestionState getState() {
+    public AnswerQuestionState getState() {
         return state;
     }
 
-    public void setState(QuestionState state) {
+    public void setState(AnswerQuestionState state) {
         this.state = state;
     }
 

@@ -20,5 +20,9 @@ public class Question {
         return score;
     }
 
+    public String getPrompt() {
+        return prompt;
+    }
+
     public Coordinate getSolution() { return solution; }
 }
