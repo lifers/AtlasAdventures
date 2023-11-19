@@ -5,7 +5,7 @@ import interface_adapter.answer_question.AnswerQuestionPresenter;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
-import use_case.AnswerQuestion.AnswerQuestionInteractor;
+import use_case.answer_question.AnswerQuestionInteractor;
 import view.AnswerQuestionView;
 
 public class QuestionUseCaseFactory {

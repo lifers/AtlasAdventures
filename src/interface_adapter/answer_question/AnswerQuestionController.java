@@ -1,9 +1,9 @@
 package interface_adapter.answer_question;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
-import use_case.AnswerQuestion.AnswerQuestionInputBoundary;
-import use_case.AnswerQuestion.AnswerQuestionInputData;
-import use_case.AnswerQuestion.NextQuestionInputData;
+import use_case.answer_question.AnswerQuestionInputBoundary;
+import use_case.answer_question.AnswerQuestionInputData;
+import use_case.answer_question.NextQuestionInputData;
 
 public record AnswerQuestionController(AnswerQuestionInputBoundary interactor, AnswerQuestionViewModel viewModel) {
     public void answer(Coordinate coordinate) {

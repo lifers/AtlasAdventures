@@ -1,4 +1,4 @@
-package use_case.AnswerQuestion;
+package use_case.answer_question;
 
 public class AnswerQuestionDataAccessInterface {
 

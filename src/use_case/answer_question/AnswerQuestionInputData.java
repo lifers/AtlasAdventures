@@ -1,4 +1,4 @@
-package use_case.AnswerQuestion;
+package use_case.answer_question;
 
 import entity.Quiz;
 import org.openstreetmap.gui.jmapviewer.Coordinate;

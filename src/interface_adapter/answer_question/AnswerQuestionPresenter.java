@@ -2,9 +2,8 @@ package interface_adapter.answer_question;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
-import use_case.AnswerQuestion.AnswerQuestionOutputBoundary;
-import use_case.AnswerQuestion.AnswerQuestionOutputData;
-import use_case.AnswerQuestion.NextQuestionInputData;
+import use_case.answer_question.AnswerQuestionOutputBoundary;
+import use_case.answer_question.AnswerQuestionOutputData;
 
 public record AnswerQuestionPresenter(ViewManagerModel viewManagerModel,
                                       AnswerQuestionViewModel answerQuestionViewModel,

@@ -1,4 +1,4 @@
-package use_case.AnswerQuestion;
+package use_case.answer_question;
 
 public interface AnswerQuestionOutputBoundary {
     void prepareEndQuizView();
