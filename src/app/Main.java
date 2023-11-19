@@ -2,16 +2,13 @@ package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import data_access.DummyDAO;
-import data_access.MapDataAccessObject;
 import entity.Question;
 import entity.Quiz;
 import interface_adapter.answer_question.AnswerQuestionState;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
-import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
-import view.AnsweredView;
 import view.MainMenuView;
 import view.AnswerQuestionView;
 import view.ViewManager;
@@ -57,7 +54,6 @@ public class Main {
         ));
         questionViewModel.setState(questionState);
 
-        MapDataAccessObject mapDataAccessObject = new MapDataAccessObject();
         // Dummy data access object, to be replaced with actual DAO
         DummyDAO dummyDAO = new DummyDAO();
 
