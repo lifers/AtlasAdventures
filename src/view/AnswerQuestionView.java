@@ -12,78 +12,124 @@ import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
 import org.openstreetmap.gui.jmapviewer.interfaces.JMapViewerEventListener;
 
 import javax.swing.*;
-import javax.swing.text.ParagraphView;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Objects;
 
 public class AnswerQuestionView extends JPanel implements ActionListener, PropertyChangeListener, JMapViewerEventListener {
     public static final String viewName = "AnswerQuestionView";
     private final AnswerQuestionController questionController;
     private final AnswerQuestionViewModel questionViewModel;
-    private final JMapViewerTree treeMap = new JMapViewerTree("AnswerQuestionMap");
-    private final JLabel totalScore = new JLabel("0", SwingConstants.CENTER);
-    private final JLabel questionText = new JLabel("Click Start!");
-    private final JButton submitButton = new JButton(AnswerQuestionViewModel.SUBMIT_BUTTON_LABEL);
-    private final JButton nextButton = new JButton(AnswerQuestionViewModel.START_BUTTON_LABEL);
-    private final MouseAdapter mapClicker = new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            var p = e.getPoint();
-            var cursorHand = map().getAttribution().handleAttributionCursor(p);
-            if (cursorHand) {
-                map().setCursor(new Cursor(Cursor.HAND_CURSOR));
-            } else {
-                map().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-            map().removeAllMapMarkers();
-            lastClick = (Coordinate) map().getPosition(p);
-            submitButton.setEnabled(true);
-            map().addMapMarker(new MapMarkerDot(lastClick));
-        }
-    };
+    private final JMapViewerTree treeMap = createTreeMap();
+    private final JLabel totalScore = createTotalScore();
+    private final JLabel questionText = createQuestionText();
+    private final JButton submitButton = this.createSubmitButton();
+    private final JButton nextButton = this.createNextButton();
+    private final MouseAdapter mapClicker = this.createMapClicker();
     private Coordinate lastClick = null;
 
-    public AnswerQuestionView(AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
+    public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
         this.questionController = questionController;
         this.questionViewModel = questionViewModel;
         this.questionViewModel.addPropertyChangeListener(this);
 
-        this.map().addJMVListener(this);
         this.setSize(600, 400);
         this.setLayout(new BorderLayout());
         this.add(treeMap, BorderLayout.EAST);
 
         var questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
+        questionPanel.setPreferredSize(new Dimension(200, 400));
+        preventExcessiveWidthShrink(parent, questionPanel, this.treeMap, 200);
+
         this.add(questionPanel, BorderLayout.WEST);
 
-        this.questionText.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
         questionPanel.add(this.questionText);
         questionPanel.add(Box.createVerticalGlue());
-
         questionPanel.add(this.submitButton);
         questionPanel.add(this.nextButton);
         questionPanel.add(this.totalScore);
+    }
 
-        this.submitButton.setEnabled(false);
-        this.submitButton.addActionListener(e -> {
-            this.questionController.answer(this.lastClick);
-            this.nextButton.setEnabled(true);
-            this.submitButton.setEnabled(false);
-            this.map().removeMouseListener(this.mapClicker);
+    private JMapViewer map() {
+        return treeMap.getViewer();
+    }
+
+    private static void preventExcessiveWidthShrink(Component parent, Component leftThird, Component rightThird,
+                                                    int leftMinWidth) {
+        parent.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                var parentWidth = parent.getWidth();
+                var leftWidth = Math.max(leftMinWidth, parentWidth / 3);
+                var rightWidth = parentWidth - leftWidth;
+                leftThird.setPreferredSize(new Dimension(leftWidth, leftThird.getHeight()));
+                rightThird.setPreferredSize(new Dimension(rightWidth, rightThird.getHeight()));
+                parent.revalidate();
+                parent.repaint();
+            }
         });
+    }
 
-        this.nextButton.addActionListener(e -> this.questionController.nextQuestion());
-
-        this.map().addMouseMotionListener(new MouseAdapter() {
+    private JMapViewerTree createTreeMap() {
+        var map = new JMapViewerTree("AnswerQuestionMap");
+        map.getViewer().addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
+                var p = e.getPoint();
+                var cursorHand = map.getViewer().getAttribution().handleAttributionCursor(p);
+                if (cursorHand) {
+                    map.getViewer().setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    map.getViewer().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+                map.getViewer().setToolTipText(map.getViewer().getPosition(p).toString());
+            }
+        });
+        map.getViewer().addJMVListener(this);
+        return map;
+    }
+
+    private static JLabel createTotalScore() {
+        var label = new JLabel("Total score: 0");
+        label.setAlignmentX(CENTER_ALIGNMENT);
+        return label;
+    }
+
+    private static JLabel createQuestionText() {
+        var label = new JLabel("Click Start!");
+        label.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
+        label.setAlignmentX(CENTER_ALIGNMENT);
+        return label;
+    }
+
+    private JButton createSubmitButton() {
+        var button = new JButton(AnswerQuestionViewModel.SUBMIT_BUTTON_LABEL);
+        button.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
+        button.setAlignmentX(CENTER_ALIGNMENT);
+        button.setEnabled(false);
+        button.addActionListener(e -> {
+            this.questionController.answer(this.lastClick);
+            this.nextButton.setEnabled(true);
+            button.setEnabled(false);
+            this.map().removeMouseListener(this.mapClicker);
+        });
+        return button;
+    }
+
+    private JButton createNextButton() {
+        var button = new JButton(AnswerQuestionViewModel.START_BUTTON_LABEL);
+        button.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
+        button.setAlignmentX(CENTER_ALIGNMENT);
+        button.addActionListener(e -> this.questionController.nextQuestion());
+        return button;
+    }
+
+    private MouseAdapter createMapClicker() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 var p = e.getPoint();
                 var cursorHand = map().getAttribution().handleAttributionCursor(p);
                 if (cursorHand) {
@@ -91,13 +137,12 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
                 } else {
                     map().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
-                map().setToolTipText(map().getPosition(p).toString());
+                map().removeAllMapMarkers();
+                lastClick = (Coordinate) map().getPosition(p);
+                submitButton.setEnabled(true);
+                map().addMapMarker(new MapMarkerDot(lastClick));
             }
-        });
-    }
-
-    private JMapViewer map() {
-        return treeMap.getViewer();
+        };
     }
 
     /**

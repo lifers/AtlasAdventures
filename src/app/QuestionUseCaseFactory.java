@@ -8,14 +8,16 @@ import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import use_case.answer_question.AnswerQuestionInteractor;
 import view.AnswerQuestionView;
 
+import javax.swing.JPanel;
+
 public class QuestionUseCaseFactory {
     private QuestionUseCaseFactory() {
     }
 
-    public static AnswerQuestionView create(ViewManagerModel viewManagerModel, AnswerQuestionViewModel questionViewModel,
-                                          SPQuizViewModel spQuizViewModel) {
+    public static AnswerQuestionView create(JPanel parent, ViewManagerModel viewManagerModel, AnswerQuestionViewModel questionViewModel,
+                                            SPQuizViewModel spQuizViewModel) {
         var questionController = createQuestionUseCase(viewManagerModel, questionViewModel, spQuizViewModel);
-        return new AnswerQuestionView(questionController, questionViewModel);
+        return new AnswerQuestionView(parent, questionController, questionViewModel);
     }
 
     private static AnswerQuestionController createQuestionUseCase(ViewManagerModel viewManagerModel,

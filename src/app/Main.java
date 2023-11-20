@@ -26,7 +26,7 @@ public class Main {
         FlatDarkLaf.setup();
         JFrame application = new JFrame("AtlasAdventures");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        application.setSize(400, 400);
+        application.setSize(600, 400);
 
         CardLayout cardLayout = new CardLayout();
 
@@ -57,7 +57,7 @@ public class Main {
         // Dummy data access object, to be replaced with actual DAO
         DummyDAO dummyDAO = new DummyDAO();
 
-        var answerQuestionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, spQuizViewModel);
+        var answerQuestionView = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel, spQuizViewModel);
         views.add(answerQuestionView, AnswerQuestionView.viewName);
 
         MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel,
