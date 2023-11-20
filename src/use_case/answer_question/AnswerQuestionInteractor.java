@@ -9,8 +9,8 @@ public record AnswerQuestionInteractor(
     // ADD PRESENTER COMPONENTS AND A CONSTRUCTOR
     @Override
     public void answer(AnswerQuestionInputData inputData) {
-        Quiz quiz = inputData.quiz;
-        Coordinate guess = inputData.coordinate;
+        Quiz quiz = inputData.quiz();
+        Coordinate guess = inputData.coordinate();
 
         Question currentQuestionQuestion = quiz.getCurrQuestion();
         Coordinate solution = currentQuestionQuestion.getSolution();
