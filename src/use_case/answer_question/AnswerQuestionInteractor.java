@@ -36,6 +36,14 @@ public record AnswerQuestionInteractor(
         }
     }
 
+    /**
+     *
+     */
+    @Override
+    public void returnToMainMenu() {
+        answerQuestionPresenter.returnToMainMenu();
+    }
+
     private double calculateDistance(Coordinate solution, Coordinate guess) {
         // Get Latitude and Longitude and convert to radians
         double lat1 = solution.getLat() / 57.29577951;

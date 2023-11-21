@@ -7,13 +7,16 @@ import use_case.answer_question.AnswerQuestionOutputData;
 
 public record AnswerQuestionPresenter(ViewManagerModel viewManagerModel,
                                       AnswerQuestionViewModel answerQuestionViewModel,
-                                      SPQuizViewModel spQuizViewModel) implements AnswerQuestionOutputBoundary {
+                                      SPQuizViewModel spQuizViewModel,
+                                      QuizEndedViewModel quizEndedViewModel) implements AnswerQuestionOutputBoundary {
     /**
      *
      */
     @Override
     public void prepareEndQuizView() {
-        this.viewManagerModel.setActiveView(this.spQuizViewModel.getViewName());
+        this.quizEndedViewModel.setState(this.answerQuestionViewModel.getState());
+        this.quizEndedViewModel.firePropertyChanged();
+        this.viewManagerModel.setActiveView(this.quizEndedViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
@@ -35,5 +38,14 @@ public record AnswerQuestionPresenter(ViewManagerModel viewManagerModel,
         state.addTotalScore(result.score());
         state.setAnswering(false);
         this.answerQuestionViewModel.firePropertyChanged();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void returnToMainMenu() {
+        this.viewManagerModel.setActiveView(this.spQuizViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 }

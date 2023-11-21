@@ -19,6 +19,6 @@ public record AnswerQuestionController(AnswerQuestionInputBoundary interactor, A
     }
 
     public void returnMainMenu() {
-
+        this.interactor.returnToMainMenu();
     }
 }

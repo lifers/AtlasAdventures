@@ -7,10 +7,12 @@ import entity.Quiz;
 import interface_adapter.answer_question.AnswerQuestionState;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import view.MainMenuView;
 import view.AnswerQuestionView;
+import view.QuizEndedView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -45,6 +47,7 @@ public class Main {
 
         SPQuizViewModel spQuizViewModel = new SPQuizViewModel();
         AnswerQuestionViewModel questionViewModel = new AnswerQuestionViewModel();
+        QuizEndedViewModel quizEndedViewModel = new QuizEndedViewModel();
         // TODO: make an actual quiz factory and delete this
         var questionState = new AnswerQuestionState(new Quiz(
                 List.of(
@@ -59,8 +62,10 @@ public class Main {
         // Dummy data access object, to be replaced with actual DAO
         DummyDAO dummyDAO = new DummyDAO();
 
-        var answerQuestionView = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel, spQuizViewModel);
-        views.add(answerQuestionView, AnswerQuestionView.viewName);
+        var questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel,
+                                                             spQuizViewModel, quizEndedViewModel);
+        views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
+        views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
 
         MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel,
                                                            dummyDAO);

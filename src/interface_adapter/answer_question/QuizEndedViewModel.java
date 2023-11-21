@@ -6,7 +6,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class QuizEndedViewModel extends ViewModel {
-    public static final String BACK_BUTTON_LABEL = "Go Back to Main Menu";
+    public static final String BACK_BUTTON_LABEL = "Go back to Main Menu";
+    public static final String TOP_TEXT_LABEL = "Your final score is";
     private AnswerQuestionState state;
 
     public QuizEndedViewModel() {
@@ -28,7 +29,7 @@ public class QuizEndedViewModel extends ViewModel {
      */
     @Override
     public void firePropertyChanged() {
-        support.firePropertyChange("state", null, this.state);
+        support.firePropertyChange("quizEndedState", null, this.state);
     }
 
     /**
