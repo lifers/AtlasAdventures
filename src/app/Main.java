@@ -1,7 +1,7 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import data_access.DummyDAO;
+import data_access.GeoInfoAccessObject;
 import entity.Question;
 import entity.Quiz;
 import interface_adapter.answer_question.AnswerQuestionState;
@@ -57,7 +57,7 @@ public class Main {
         questionViewModel.setState(questionState);
 
         // Dummy data access object, to be replaced with actual DAO
-        DummyDAO dummyDAO = new DummyDAO();
+        GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
 
         var answerQuestionView = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel, spQuizViewModel);
         views.add(answerQuestionView, AnswerQuestionView.viewName);
