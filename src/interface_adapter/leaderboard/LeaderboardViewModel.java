@@ -8,6 +8,7 @@ import java.beans.PropertyChangeSupport;
 public class LeaderboardViewModel extends ViewModel {
 
     public static final String LEADERBOARD_BUTTON_LABEL = "Leaderboard";
+    public static final String TITLE_LABEL = "Leaderboard";
 
     public LeaderboardViewModel() {
         super("MainMenuView");
@@ -23,5 +24,4 @@ public class LeaderboardViewModel extends ViewModel {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 
     }
-    public static final String LEADERBOARD_BUTTON_LABEL = "Leaderboard";
 }
