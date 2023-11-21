@@ -23,7 +23,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     private final AnswerQuestionViewModel questionViewModel;
     private final JMapViewerTree treeMap = createTreeMap();
     private final JLabel totalScore = createTotalScore();
-    private final JLabel questionText = createQuestionText();
+    private final JTextArea questionText = createQuestionText();
     private final JButton submitButton = this.createSubmitButton();
     private final JButton nextButton = this.createNextButton();
     private final MouseAdapter mapClicker = this.createMapClicker();
@@ -97,8 +97,11 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
         return label;
     }
 
-    private static JLabel createQuestionText() {
-        var label = new JLabel("Click Start!");
+    private static JTextArea createQuestionText() {
+        var label = new JTextArea("Click Start!");
+        label.setLineWrap(true);
+        label.setWrapStyleWord(true);
+        label.setEditable(false);
         label.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
         label.setAlignmentX(CENTER_ALIGNMENT);
         return label;
