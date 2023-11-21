@@ -3,11 +3,14 @@ package interface_adapter.start_sp_quiz;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.question.QuestionViewModel;
 import use_case.start_sp_quiz.SPQuizOutputBoundary;
+import use_case.start_sp_quiz.SPQuizOutputData;
 
 public class SPQuizPresenter implements SPQuizOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final SPQuizViewModel spQuizViewModel;
     private final QuestionViewModel questionViewModel;
+
+
     public SPQuizPresenter(ViewManagerModel viewManagerModel, SPQuizViewModel spQuizViewModel, QuestionViewModel questionViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.spQuizViewModel = spQuizViewModel;
@@ -15,7 +18,7 @@ public class SPQuizPresenter implements SPQuizOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView() {
+    public void prepareSuccessView(SPQuizOutputData SPQuizOutputData) {
         // For the following to work, the ViewModel viewName must be the same as the View viewName
         viewManagerModel.setActiveView(questionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
