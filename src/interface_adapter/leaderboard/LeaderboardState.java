@@ -1,11 +1,15 @@
 package interface_adapter.leaderboard;
 
+import entity.Profile;
+
+import java.util.ArrayList;
+
 public class LeaderboardState {
-    private String[] leaderboard = new String[10];
+    private ArrayList<Profile> leaderboard = new ArrayList<Profile>(10);
 
     public LeaderboardState() {}
 
-    public void setLeaderboard(String[] leaderboard) {
+    public void setLeaderboard(ArrayList<Profile> leaderboard) {
         this.leaderboard = leaderboard;
     }
 }
