@@ -4,8 +4,12 @@ import entity.Question;
 import entity.Quiz;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
-public record AnswerQuestionInteractor(
-        AnswerQuestionOutputBoundary answerQuestionPresenter) implements AnswerQuestionInputBoundary {
+public class AnswerQuestionInteractor implements AnswerQuestionInputBoundary {
+    private final AnswerQuestionOutputBoundary answerQuestionPresenter;
+
+    public AnswerQuestionInteractor(AnswerQuestionOutputBoundary answerQuestionPresenter) {
+        this.answerQuestionPresenter = answerQuestionPresenter;
+    }
     // ADD PRESENTER COMPONENTS AND A CONSTRUCTOR
     @Override
     public void answer(AnswerQuestionInputData inputData) {

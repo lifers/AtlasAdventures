@@ -5,10 +5,20 @@ import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import use_case.answer_question.AnswerQuestionOutputBoundary;
 import use_case.answer_question.AnswerQuestionOutputData;
 
-public record AnswerQuestionPresenter(ViewManagerModel viewManagerModel,
-                                      AnswerQuestionViewModel answerQuestionViewModel,
-                                      SPQuizViewModel spQuizViewModel,
-                                      QuizEndedViewModel quizEndedViewModel) implements AnswerQuestionOutputBoundary {
+public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
+    private final ViewManagerModel viewManagerModel;
+    private final SPQuizViewModel spQuizViewModel;
+    private final AnswerQuestionViewModel answerQuestionViewModel;
+    private final QuizEndedViewModel quizEndedViewModel;
+
+    public AnswerQuestionPresenter(ViewManagerModel viewManagerModel, AnswerQuestionViewModel answerQuestionViewModel,
+                                   SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel) {
+        this.viewManagerModel = viewManagerModel;
+        this.spQuizViewModel = spQuizViewModel;
+        this.answerQuestionViewModel = answerQuestionViewModel;
+        this.quizEndedViewModel = quizEndedViewModel;
+    }
+
     /**
      *
      */
