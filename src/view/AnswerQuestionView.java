@@ -94,6 +94,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     private static JLabel createTotalScore() {
         var label = new JLabel("Total score: 0");
         label.setAlignmentX(CENTER_ALIGNMENT);
+        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 16));
         return label;
     }
 
@@ -175,7 +176,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
                 this.nextButton.setText(AnswerQuestionViewModel.NEXT_BUTTON_LABEL);
             }
             case AnswerQuestionState state when !state.isAnswering() -> {
-                this.totalScore.setText("Total score: " + state.getTotalScore());
+                this.totalScore.setText("Total score: " + String.format("%.2f", state.getTotalScore()));
                 this.questionText.setText("Press Next");
             }
             default -> throw new IllegalStateException("Unexpected value: " + evt.getNewValue());

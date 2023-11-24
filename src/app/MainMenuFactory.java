@@ -1,6 +1,7 @@
 package app;
 
-import data_access.DummyDAO;
+
+import data_access.GeoInfoAccessObject;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.profile.ProfileController;
@@ -14,8 +15,8 @@ import use_case.profile.ProfileDataAccessInterface;
 import use_case.profile.ProfileInputBoundary;
 import use_case.profile.ProfileInteractor;
 import use_case.start_sp_quiz.SPQuizInputBoundary;
+import use_case.start_sp_quiz.SPQuizInteractor;
 import use_case.start_sp_quiz.SPQuizOutputBoundary;
-import use_case.start_sp_quiz.TestSPQuizInteractor;
 import view.MainMenuView;
 
 public class MainMenuFactory {
@@ -28,7 +29,7 @@ public class MainMenuFactory {
             ProfileViewModel profileViewModel,
             ProfileDataAccessInterface DAO,
             AnswerQuestionViewModel questionViewModel,
-            DummyDAO dummyDAO) {
+            GeoInfoAccessObject dummyDAO) {
 
         SPQuizController spQuizController = createSPQuizUseCase(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
         ProfileController profileController = createProfileUseCase(viewManagerModel, profileViewModel, DAO);
@@ -39,10 +40,10 @@ public class MainMenuFactory {
     private static SPQuizController createSPQuizUseCase(ViewManagerModel viewManagerModel,
                                                         SPQuizViewModel spQuizViewModel,
                                                         AnswerQuestionViewModel questionViewModel,
-                                                        DummyDAO dummyDAO) {
+                                                        GeoInfoAccessObject dummyDAO) {
         SPQuizOutputBoundary spQuizPresenter = new SPQuizPresenter(viewManagerModel, spQuizViewModel, questionViewModel);
 
-        SPQuizInputBoundary spQuizInteractor = new TestSPQuizInteractor(spQuizPresenter, dummyDAO);
+        SPQuizInputBoundary spQuizInteractor = new SPQuizInteractor(dummyDAO, spQuizPresenter);
 
         return new SPQuizController(spQuizInteractor);
     }
