@@ -1,5 +1,7 @@
 package view;
 
+import interface_adapter.profile.ProfileController;
+import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
@@ -10,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,19 +23,25 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
     private final SPQuizController spQuizController;
     private final LeaderboardViewModel leaderboardViewModel;
     private final LeaderboardController leaderboardController;
+    private final ProfileViewModel profileViewModel;
+    private final ProfileController profileController;
     private final JButton spQuiz;
     private final JButton mpQuiz;
     private final JButton profile;
     private final JButton leaderboard;
 
+    public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel, ProfileViewModel profileViewModel, ProfileController profileController) {
     public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel,
                         LeaderboardController leaderboardController, LeaderboardViewModel leaderboardViewModel) {
         this.spQuizController = spQuizController;
         this.spQuizViewModel = spQuizViewModel;
+        this.profileController = profileController;
+        this.profileViewModel = profileViewModel;
         spQuizViewModel.addPropertyChangeListener(this);
         this.leaderboardController = leaderboardController;
         this.leaderboardViewModel = leaderboardViewModel;
         leaderboardViewModel.addPropertyChangeListener(this);
+        profileViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Main Menu");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -55,6 +65,17 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
                         }
                     }
                 }
+        );
+
+        profile.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(profile)) {
+                            profileController.execute();
+                        }
+                    }
+                }
+
         );
 
         leaderboard.addActionListener(
