@@ -19,8 +19,8 @@ import java.beans.PropertyChangeListener;
 
 public class AnswerQuestionView extends JPanel implements ActionListener, PropertyChangeListener, JMapViewerEventListener {
     public static final String viewName = "AnswerQuestionView";
-    private final AnswerQuestionController questionController;
-    private final AnswerQuestionViewModel questionViewModel;
+    private final AnswerQuestionController answerQuestionController;
+    private final AnswerQuestionViewModel answerQuestionViewModel;
     private final JMapViewerTree treeMap = createTreeMap();
     private final JLabel totalScore = createTotalScore();
     private final JTextArea questionText = createQuestionText();
@@ -30,9 +30,9 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     private Coordinate lastClick = null;
 
     public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
-        this.questionController = questionController;
-        this.questionViewModel = questionViewModel;
-        this.questionViewModel.addPropertyChangeListener(this);
+        this.answerQuestionController = questionController;
+        this.answerQuestionViewModel = questionViewModel;
+        this.answerQuestionViewModel.addPropertyChangeListener(this);
 
         this.setSize(600, 400);
         this.setLayout(new BorderLayout());
@@ -114,7 +114,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
         button.setAlignmentX(CENTER_ALIGNMENT);
         button.setEnabled(false);
         button.addActionListener(e -> {
-            this.questionController.answer(this.lastClick);
+            this.answerQuestionController.answer(this.lastClick);
             this.nextButton.setEnabled(true);
             button.setEnabled(false);
             this.map().removeMouseListener(this.mapClicker);
@@ -126,7 +126,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
         var button = new JButton(AnswerQuestionViewModel.START_BUTTON_LABEL);
         button.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
         button.setAlignmentX(CENTER_ALIGNMENT);
-        button.addActionListener(e -> this.questionController.nextQuestion());
+        button.addActionListener(e -> this.answerQuestionController.nextQuestion());
         return button;
     }
 

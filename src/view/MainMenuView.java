@@ -30,9 +30,9 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
     private final JButton profile;
     private final JButton leaderboard;
 
-    public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel, ProfileViewModel profileViewModel, ProfileController profileController) {
     public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel,
-                        LeaderboardController leaderboardController, LeaderboardViewModel leaderboardViewModel) {
+                        LeaderboardController leaderboardController, LeaderboardViewModel leaderboardViewModel,
+                        ProfileViewModel profileViewModel, ProfileController profileController) {
         this.spQuizController = spQuizController;
         this.spQuizViewModel = spQuizViewModel;
         this.profileController = profileController;

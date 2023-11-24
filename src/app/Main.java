@@ -1,23 +1,21 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import data_access.GeoInfoAccessObject;
+import data_access.GeoInfoDataAccessObject;
 import entity.Question;
 import entity.Quiz;
 import interface_adapter.answer_question.AnswerQuestionState;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import data_access.FileUserDataAccessObject;
+import data_access.MongoDBDataAccessObject;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
+import view.*;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import use_case.profile.ProfileDataAccessInterface;
-import view.MainMenuView;
-import view.AnswerQuestionView;
-import view.QuizEndedView;
-import view.ProfileView;
-import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,8 +48,11 @@ public class Main {
         // be observed by the Views.
 
         SPQuizViewModel spQuizViewModel = new SPQuizViewModel();
-        AnswerQuestionViewModel questionViewModel = new AnswerQuestionViewModel();
+        AnswerQuestionViewModel answerQuestionViewModel = new AnswerQuestionViewModel();
         QuizEndedViewModel quizEndedViewModel = new QuizEndedViewModel();
+        ProfileViewModel profileViewModel = new ProfileViewModel();
+        LeaderboardViewModel leaderboardViewModel = new LeaderboardViewModel();
+
         // TODO: make an actual quiz factory and delete this
         var questionState = new AnswerQuestionState(new Quiz(
                 List.of(
@@ -61,28 +62,40 @@ public class Main {
                                      "Can you show me where is the legendary Northrop Frye McDonald's please?")
                 )
         ));
-        questionViewModel.setState(questionState);
-        ProfileViewModel profileViewModel = new ProfileViewModel();
+        answerQuestionViewModel.setState(questionState);
 
-        ProfileDataAccessInterface DAO = null;
+        ProfileDataAccessInterface profileDAO = null;
         try{
-            DAO = new FileUserDataAccessObject("./profile.csv");
+            profileDAO = new FileUserDataAccessObject("./profile.csv");
         }
         catch(IOException e) {
         }
 
-        // Dummy data access object, to be replaced with actual DAO
-        GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
+        MongoDBDataAccessObject leaderboardDAO = new MongoDBDataAccessObject(
+                "mongodb://localhost:27017",
+                "atlas-adventures-leaderbaord",
+                "leaderboard");
 
-        var questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel,
+        GeoInfoDataAccessObject spQuizDAO = new GeoInfoDataAccessObject();
+
+        AnswerQuestionViewPair questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, answerQuestionViewModel,
                                                              spQuizViewModel, quizEndedViewModel);
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
 
         ProfileView profileView = new ProfileView(profileViewModel, viewManagerModel);
         views.add(profileView, profileView.viewName);
-
-        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, profileViewModel, DAO, dummyDAO);
+        LeaderboardView leaderboardView = new LeaderboardView(leaderboardViewModel, viewManagerModel);
+        views.add(leaderboardView, leaderboardView.viewName);
+        MainMenuView mainMenuView = MainMenuFactory.create(
+                viewManagerModel,
+                spQuizViewModel,
+                spQuizDAO,
+                answerQuestionViewModel,
+                profileViewModel,
+                profileDAO,
+                leaderboardViewModel,
+                leaderboardDAO);
         views.add(mainMenuView, mainMenuView.viewName);
 
         viewManagerModel.setActiveView(mainMenuView.viewName);
