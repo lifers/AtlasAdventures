@@ -27,6 +27,11 @@ class AnswerQuestionInteractorTest {
             public void prepareAnsweredView(AnswerQuestionOutputData result) {
                 assertEquals(100, result.score(), 0.001);
             }
+
+            @Override
+            public void returnToMainMenu() {
+                fail("wrong function to call");
+            }
         };
         var interactor = new AnswerQuestionInteractor(presenter);
         var input = new AnswerQuestionInputData(
@@ -56,6 +61,11 @@ class AnswerQuestionInteractorTest {
             @Override
             public void prepareAnsweredView(AnswerQuestionOutputData result) {
                 assertEquals(98.07, result.score(), 0.001);
+            }
+
+            @Override
+            public void returnToMainMenu() {
+                fail("wrong function to call");
             }
         };
         var interactor = new AnswerQuestionInteractor(presenter);
@@ -88,6 +98,11 @@ class AnswerQuestionInteractorTest {
             public void prepareAnsweredView(AnswerQuestionOutputData result) {
                 assertEquals(0, result.score(), 0.001);
             }
+
+            @Override
+            public void returnToMainMenu() {
+                fail("wrong function to call");
+            }
         };
         var interactor = new AnswerQuestionInteractor(presenter);
         var input = new AnswerQuestionInputData(
@@ -119,6 +134,11 @@ class AnswerQuestionInteractorTest {
             public void prepareAnsweredView(AnswerQuestionOutputData result) {
                 fail("wrong function to call");
             }
+
+            @Override
+            public void returnToMainMenu() {
+                fail("wrong function to call");
+            }
         };
         var interactor = new AnswerQuestionInteractor(presenter);
         var input = new NextQuestionInputData(
@@ -145,6 +165,11 @@ class AnswerQuestionInteractorTest {
 
             @Override
             public void prepareAnsweredView(AnswerQuestionOutputData result) {
+                fail("wrong function to call");
+            }
+
+            @Override
+            public void returnToMainMenu() {
                 fail("wrong function to call");
             }
         };
