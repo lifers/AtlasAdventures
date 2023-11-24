@@ -20,7 +20,9 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     }
 
     /**
-     *
+     * Updates the state of the {@link QuizEndedViewModel} with the state from
+     * the {@link AnswerQuestionViewModel}, and change the active view to
+     * {@link view.QuizEndedView}.
      */
     @Override
     public void prepareEndQuizView() {
@@ -31,7 +33,8 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     }
 
     /**
-     *
+     * Notifies the {@link view.AnswerQuestionView} to let the player
+     * answer the next question.
      */
     @Override
     public void prepareNextQuestionView() {
@@ -40,7 +43,9 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     }
 
     /**
-     * @param result
+     * Shows the result of the last answered question.
+     *
+     * @param result the result from the last answered question.
      */
     @Override
     public void prepareAnsweredView(AnswerQuestionOutputData result) {
@@ -51,7 +56,7 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     }
 
     /**
-     *
+     * Return to the main menu.
      */
     @Override
     public void returnToMainMenu() {
