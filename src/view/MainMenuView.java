@@ -1,5 +1,7 @@
 package view;
 
+import interface_adapter.profile.ProfileController;
+import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
 import interface_adapter.start_sp_quiz.SPQuizState;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
@@ -17,14 +19,19 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
     public final String viewName = "MainMenuView";
     private final SPQuizViewModel spQuizViewModel;
     private final SPQuizController spQuizController;
+    private final ProfileViewModel profileViewModel;
+    private final ProfileController profileController;
     private final JButton spQuiz;
     private final JButton mpQuiz;
     private final JButton profile;
 
-    public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel) {
+    public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel, ProfileViewModel profileViewModel, ProfileController profileController) {
         this.spQuizController = spQuizController;
         this.spQuizViewModel = spQuizViewModel;
+        this.profileController = profileController;
+        this.profileViewModel = profileViewModel;
         spQuizViewModel.addPropertyChangeListener(this);
+        profileViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Main Menu");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -46,6 +53,17 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
                         }
                     }
                 }
+        );
+
+        profile.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(profile)) {
+                            profileController.execute();
+                        }
+                    }
+                }
+
         );
 
         this.setSize(400,400);
