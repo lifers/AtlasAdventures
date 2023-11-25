@@ -7,4 +7,8 @@ public class SPQuizOutputData {
     public SPQuizOutputData(Quiz quiz) {
         this.quiz = quiz;
     }
+
+    public Quiz getQuiz() {
+        return this.quiz;
+    }
 }

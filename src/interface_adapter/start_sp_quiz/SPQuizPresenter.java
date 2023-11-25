@@ -1,5 +1,6 @@
 package interface_adapter.start_sp_quiz;
 
+import interface_adapter.answer_question.AnswerQuestionState;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
 import use_case.start_sp_quiz.SPQuizOutputBoundary;
@@ -20,6 +21,8 @@ public class SPQuizPresenter implements SPQuizOutputBoundary {
     @Override
     public void prepareSuccessView(SPQuizOutputData SPQuizOutputData) {
         // For the following to work, the ViewModel viewName must be the same as the View viewName
+        AnswerQuestionState quizState = new AnswerQuestionState(SPQuizOutputData.getQuiz());
+        questionViewModel.setState(quizState);
         viewManagerModel.setActiveView(questionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
