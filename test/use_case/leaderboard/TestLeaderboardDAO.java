@@ -18,15 +18,15 @@ public class TestLeaderboardDAO implements LeaderboardDataAccessInterface{
             @Override
             public int compare(Profile p1, Profile p2) {
                 if(p1.getAverage_score() < p2.getAverage_score()) {
-                    return -1;
-                } else if (p1.getAverage_score() > p2.getAverage_score()) {
                     return 1;
+                } else if (p1.getAverage_score() > p2.getAverage_score()) {
+                    return -1;
                 } else {
                     return 0;
                 }
             }
         };
-        this.leaderboard.sort(this.profileComparator.reversed());
+        this.leaderboard.sort(this.profileComparator);
     }
 
 
