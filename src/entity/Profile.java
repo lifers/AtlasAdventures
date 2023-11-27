@@ -23,4 +23,19 @@ public class Profile {
     public void setGames_played(double games_played) {
         this.games_played = games_played;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        else {
+            Profile other = (Profile) obj;
+            return this.average_score == other.average_score && this.games_played == other.games_played;
+        }
+    }
 }
