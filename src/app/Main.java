@@ -1,9 +1,8 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import data_access.GeoInfoAccessObject;
-import interface_adapter.ViewManagerModel;
 import data_access.GeoInfoDataAccessObject;
+import interface_adapter.ViewManagerModel;
 import entity.Question;
 import entity.Quiz;
 import interface_adapter.answer_question.AnswerQuestionState;
@@ -54,39 +53,38 @@ public class Main {
 
         new ViewManager(views, cardLayout, viewManagerModel);
 
-        // The data for the views, such as username and password, are in the ViewModels.
-        // This information will be changed by a presenter object that is reporting the
-        // results from the use case. The ViewModels are observable, and will
-        // be observed by the Views.
-
+        // View Models
         SPQuizViewModel spQuizViewModel = new SPQuizViewModel();
         AnswerQuestionViewModel answerQuestionViewModel = new AnswerQuestionViewModel();
         QuizEndedViewModel quizEndedViewModel = new QuizEndedViewModel();
         ProfileViewModel profileViewModel = new ProfileViewModel();
         LeaderboardViewModel leaderboardViewModel = new LeaderboardViewModel();
 
-        ProfileDataAccessInterface DAO = null;
-        try{
-            DAO = new FileUserDataAccessObject("./profile.csv");
+        // DAOs
+        ProfileDataAccessInterface profileDAO = null;
+        try {
+            profileDAO = new FileUserDataAccessObject("./profile.csv");
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
         }
-        catch(IOException e) {
-        }
-
-        // Dummy data access object, to be replaced with actual DAO
-        GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
         
-        MongoDBDataAccessObject leaderboardDAO = new MongoDBDataAccessObject(
-                "mongodb://localhost:27017",
-                "atlas-adventures-leaderbaord",
-                "leaderboard");
+        MongoDBDataAccessObject leaderboardDAO = null;
+        try {
+            leaderboardDAO = new MongoDBDataAccessObject(
+                    "mongodb://localhost:27017",
+                    "atlas-adventures-leaderbaord",
+                    "leaderboard");
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         GeoInfoDataAccessObject spQuizDAO = new GeoInfoDataAccessObject();
 
+        // Views
         AnswerQuestionViewPair questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, answerQuestionViewModel,
                                                              spQuizViewModel, quizEndedViewModel);
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
-
         ProfileView profileView = new ProfileView(profileViewModel, viewManagerModel);
         views.add(profileView, profileView.viewName);
         LeaderboardView leaderboardView = new LeaderboardView(leaderboardViewModel, viewManagerModel);

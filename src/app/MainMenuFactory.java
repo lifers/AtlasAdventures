@@ -36,10 +36,6 @@ public class MainMenuFactory {
             ProfileDataAccessInterface profileDAO,
             LeaderboardViewModel leaderboardViewModel,
             LeaderboardDataAccessInterface leaderboardDAO) {
-            AnswerQuestionViewModel questionViewModel,
-            GeoInfoAccessObject dummyDAO,
-            ProfileViewModel profileViewModel,
-            ProfileDataAccessInterface DAO) {
 
         SPQuizController spQuizController = createSPQuizUseCase(viewManagerModel, spQuizViewModel, answerQuestionViewModel, spQuizDAO);
         ProfileController profileController = createProfileUseCase(viewManagerModel, profileViewModel, profileDAO);
