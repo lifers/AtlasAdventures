@@ -169,6 +169,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getNewValue()) {
             case AnswerQuestionState state when state.isAnswering() -> {
+                this.totalScore.setText("Total score: " + String.format("%.2f", state.getTotalScore()));
                 this.questionText.setText(state.getQuiz().getCurrQuestion().getPrompt());
                 this.map().removeAllMapMarkers();
                 this.map().addMouseListener(this.mapClicker);

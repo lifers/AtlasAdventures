@@ -1,6 +1,8 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import data_access.GeoInfoAccessObject;
+import interface_adapter.ViewManagerModel;
 import data_access.GeoInfoDataAccessObject;
 import entity.Question;
 import entity.Quiz;
@@ -13,6 +15,14 @@ import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
+import view.AnswerQuestionView;
+import view.MainMenuView;
+import view.QuizEndedView;
+import data_access.FileUserDataAccessObject;
+import interface_adapter.profile.ProfileViewModel;
+import use_case.profile.ProfileDataAccessInterface;
+import view.ProfileView;
+import view.ViewManager;
 import view.*;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import use_case.profile.ProfileDataAccessInterface;
@@ -55,24 +65,16 @@ public class Main {
         ProfileViewModel profileViewModel = new ProfileViewModel();
         LeaderboardViewModel leaderboardViewModel = new LeaderboardViewModel();
 
-        // TODO: make an actual quiz factory and delete this
-        var questionState = new AnswerQuestionState(new Quiz(
-                List.of(
-                        new Question(new Coordinate(52, -1), "Where is England?"),
-                        new Question(new Coordinate(56, -4), "Where is Scotland?"),
-                        new Question(new Coordinate(43.667, -79.395),
-                                     "Can you show me where is the legendary Northrop Frye McDonald's please?")
-                )
-        ));
-        answerQuestionViewModel.setState(questionState);
-
-        ProfileDataAccessInterface profileDAO = null;
+        ProfileDataAccessInterface DAO = null;
         try{
-            profileDAO = new FileUserDataAccessObject("./profile.csv");
+            DAO = new FileUserDataAccessObject("./profile.csv");
         }
         catch(IOException e) {
         }
 
+        // Dummy data access object, to be replaced with actual DAO
+        GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
+        
         MongoDBDataAccessObject leaderboardDAO = new MongoDBDataAccessObject(
                 "mongodb://localhost:27017",
                 "atlas-adventures-leaderbaord",
