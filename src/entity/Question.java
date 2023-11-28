@@ -19,4 +19,10 @@ public class Question {
     public int getScore() {
         return score;
     }
+
+    public String getPrompt() {
+        return prompt;
+    }
+
+    public Coordinate getSolution() { return solution; }
 }

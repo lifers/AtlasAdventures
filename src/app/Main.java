@@ -1,17 +1,18 @@
 package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import data_access.DummyDAO;
-import data_access.FileUserDataAccessObject;
-import data_access.MapDataAccessObject;
+import data_access.GeoInfoAccessObject;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.answer_question.AnswerQuestionViewModel;
+import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
-import interface_adapter.question.QuestionViewModel;
-import use_case.profile.ProfileDataAccessInterface;
+import view.AnswerQuestionView;
 import view.MainMenuView;
+import view.QuizEndedView;
+import data_access.FileUserDataAccessObject;
+import interface_adapter.profile.ProfileViewModel;
+import use_case.profile.ProfileDataAccessInterface;
 import view.ProfileView;
-import view.QuestionView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class Main {
         FlatDarkLaf.setup();
         JFrame application = new JFrame("AtlasAdventures");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        application.setSize(400, 400);
+        application.setSize(600, 400);
 
         CardLayout cardLayout = new CardLayout();
 
@@ -45,10 +46,11 @@ public class Main {
         // be observed by the Views.
 
         SPQuizViewModel spQuizViewModel = new SPQuizViewModel();
-        QuestionViewModel questionViewModel = new QuestionViewModel();
+        AnswerQuestionViewModel questionViewModel = new AnswerQuestionViewModel();
+        QuizEndedViewModel quizEndedViewModel = new QuizEndedViewModel();
+
         ProfileViewModel profileViewModel = new ProfileViewModel();
 
-        MapDataAccessObject mapDataAccessObject = new MapDataAccessObject();
         ProfileDataAccessInterface DAO = null;
         try{
             DAO = new FileUserDataAccessObject("./profile.csv");
@@ -57,15 +59,18 @@ public class Main {
         }
 
         // Dummy data access object, to be replaced with actual DAO
-        DummyDAO dummyDAO = new DummyDAO();
+        GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
 
-        QuestionView questionView = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel, mapDataAccessObject);
-        views.add(questionView, questionView.viewName);
+        var questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel,
+                                                             spQuizViewModel, quizEndedViewModel);
+        views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
+        views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
 
         ProfileView profileView = new ProfileView(profileViewModel, viewManagerModel);
         views.add(profileView, profileView.viewName);
 
-        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, profileViewModel, DAO, dummyDAO);
+        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel,
+                                                           dummyDAO, profileViewModel, DAO);
         views.add(mainMenuView, mainMenuView.viewName);
 
         viewManagerModel.setActiveView(mainMenuView.viewName);
