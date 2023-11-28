@@ -2,22 +2,17 @@ package app;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import data_access.GeoInfoAccessObject;
-import entity.Question;
-import entity.Quiz;
-import interface_adapter.answer_question.AnswerQuestionState;
-import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-import view.MainMenuView;
 import view.AnswerQuestionView;
+import view.MainMenuView;
 import view.QuizEndedView;
 import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
