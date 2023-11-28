@@ -48,16 +48,6 @@ public class Main {
         SPQuizViewModel spQuizViewModel = new SPQuizViewModel();
         AnswerQuestionViewModel questionViewModel = new AnswerQuestionViewModel();
         QuizEndedViewModel quizEndedViewModel = new QuizEndedViewModel();
-        // TODO: make an actual quiz factory and delete this
-        var questionState = new AnswerQuestionState(new Quiz(
-                List.of(
-                        new Question(new Coordinate(52, -1), "Where is England?"),
-                        new Question(new Coordinate(56, -4), "Where is Scotland?"),
-                        new Question(new Coordinate(43.667, -79.395),
-                                     "Can you show me where is the legendary Northrop Frye McDonald's please?")
-                )
-        ));
-        questionViewModel.setState(questionState);
 
         // Dummy data access object, to be replaced with actual DAO
         GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
