@@ -2,8 +2,8 @@ package entity;
 
 public class Profile {
     private double average_score;
-    private double games_played;
-    public Profile(double average_score, double games_played){
+    private int games_played;
+    public Profile(double average_score, int games_played){
         this.average_score = average_score;
         this.games_played = games_played;
     }
@@ -12,7 +12,7 @@ public class Profile {
         return average_score;
     }
 
-    public double getGames_played() {
+    public int getGames_played() {
         return games_played;
     }
 
@@ -20,7 +20,7 @@ public class Profile {
         this.average_score = average_score;
     }
 
-    public void setGames_played(double games_played) {
+    public void setGames_played(int games_played) {
         this.games_played = games_played;
     }
 }

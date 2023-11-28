@@ -9,10 +9,22 @@ import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import view.AnswerQuestionView;
 import view.MainMenuView;
 import view.QuizEndedView;
+import data_access.DummyDAO;
+import data_access.FileUserDataAccessObject;
+import data_access.MapDataAccessObject;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.start_sp_quiz.SPQuizViewModel;
+import interface_adapter.question.QuestionViewModel;
+import use_case.profile.ProfileDataAccessInterface;
+import view.MainMenuView;
+import view.ProfileView;
+import view.QuestionView;
 import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -44,6 +56,16 @@ public class Main {
         AnswerQuestionViewModel questionViewModel = new AnswerQuestionViewModel();
         QuizEndedViewModel quizEndedViewModel = new QuizEndedViewModel();
 
+        ProfileViewModel profileViewModel = new ProfileViewModel();
+
+        MapDataAccessObject mapDataAccessObject = new MapDataAccessObject();
+        ProfileDataAccessInterface DAO = null;
+        try{
+            DAO = new FileUserDataAccessObject("./profile.csv");
+        }
+        catch(IOException e) {
+        }
+
         // Dummy data access object, to be replaced with actual DAO
         GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
 
@@ -52,8 +74,10 @@ public class Main {
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
 
-        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel,
-                                                           dummyDAO);
+        ProfileView profileView = new ProfileView(profileViewModel, viewManagerModel);
+        views.add(profileView, profileView.viewName);
+
+        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, profileViewModel, DAO, dummyDAO);
         views.add(mainMenuView, mainMenuView.viewName);
 
         viewManagerModel.setActiveView(mainMenuView.viewName);

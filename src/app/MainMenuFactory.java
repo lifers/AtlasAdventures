@@ -4,9 +4,16 @@ package app;
 import data_access.GeoInfoAccessObject;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.profile.ProfileController;
+import interface_adapter.profile.ProfilePresenter;
+import interface_adapter.profile.ProfileViewModel;
+import interface_adapter.question.QuestionViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
 import interface_adapter.start_sp_quiz.SPQuizPresenter;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
+import use_case.profile.ProfileDataAccessInterface;
+import use_case.profile.ProfileInputBoundary;
+import use_case.profile.ProfileInteractor;
 import use_case.start_sp_quiz.SPQuizInputBoundary;
 import use_case.start_sp_quiz.SPQuizInteractor;
 import use_case.start_sp_quiz.SPQuizOutputBoundary;
@@ -19,10 +26,14 @@ public class MainMenuFactory {
             ViewManagerModel viewManagerModel,
             SPQuizViewModel spQuizViewModel,
             AnswerQuestionViewModel questionViewModel,
-            GeoInfoAccessObject dummyDAO) {
+            GeoInfoAccessObject dummyDAO,
+            ProfileViewModel profileViewModel,
+            ProfileDataAccessInterface DAO,
+            DummyDAO dummyDAO) {
 
         SPQuizController spQuizController = createSPQuizUseCase(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
-        return new MainMenuView(spQuizController, spQuizViewModel);
+        ProfileController profileController = createProfileUseCase(viewManagerModel, profileViewModel, DAO);
+        return new MainMenuView(spQuizController, spQuizViewModel, profileViewModel, profileController);
 
     }
 
@@ -35,5 +46,16 @@ public class MainMenuFactory {
         SPQuizInputBoundary spQuizInteractor = new SPQuizInteractor(dummyDAO, spQuizPresenter);
 
         return new SPQuizController(spQuizInteractor);
+    }
+
+    private static ProfileController createProfileUseCase(ViewManagerModel viewManagerModel,
+                                                          ProfileViewModel profileViewModel,
+                                                          ProfileDataAccessInterface DAO) {
+        ProfilePresenter profilePresenter = new ProfilePresenter(profileViewModel, viewManagerModel);
+
+        ProfileInputBoundary profileInteractor = new ProfileInteractor(profilePresenter, DAO);
+
+        return new ProfileController(profileInteractor);
+
     }
 }
