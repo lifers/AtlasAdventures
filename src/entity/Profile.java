@@ -1,9 +1,11 @@
 package entity;
 
 public class Profile {
+    private final int uid;
     private double average_score;
     private int games_played;
-    public Profile(double average_score, int games_played){
+    public Profile(int uid, double average_score, int games_played){
+        this.uid = uid;
         this.average_score = average_score;
         this.games_played = games_played;
     }
@@ -37,5 +39,9 @@ public class Profile {
             Profile other = (Profile) obj;
             return this.average_score == other.average_score && this.games_played == other.games_played;
         }
+    }
+
+    public int getUid() {
+        return uid;
     }
 }
