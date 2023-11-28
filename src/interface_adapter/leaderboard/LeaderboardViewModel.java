@@ -11,7 +11,7 @@ public class LeaderboardViewModel extends ViewModel {
     public static final String TITLE_LABEL = "Leaderboard";
     private LeaderboardState leaderboardState = new LeaderboardState();
     public LeaderboardViewModel() {
-        super("MainMenuView");
+        super("LeaderboardView");
     }
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     @Override
