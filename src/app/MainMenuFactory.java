@@ -7,7 +7,6 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.profile.ProfileController;
 import interface_adapter.profile.ProfilePresenter;
 import interface_adapter.profile.ProfileViewModel;
-import interface_adapter.question.QuestionViewModel;
 import interface_adapter.start_sp_quiz.SPQuizController;
 import interface_adapter.start_sp_quiz.SPQuizPresenter;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
@@ -28,8 +27,7 @@ public class MainMenuFactory {
             AnswerQuestionViewModel questionViewModel,
             GeoInfoAccessObject dummyDAO,
             ProfileViewModel profileViewModel,
-            ProfileDataAccessInterface DAO,
-            DummyDAO dummyDAO) {
+            ProfileDataAccessInterface DAO) {
 
         SPQuizController spQuizController = createSPQuizUseCase(viewManagerModel, spQuizViewModel, questionViewModel, dummyDAO);
         ProfileController profileController = createProfileUseCase(viewManagerModel, profileViewModel, DAO);

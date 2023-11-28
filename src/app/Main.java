@@ -9,17 +9,10 @@ import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import view.AnswerQuestionView;
 import view.MainMenuView;
 import view.QuizEndedView;
-import data_access.DummyDAO;
 import data_access.FileUserDataAccessObject;
-import data_access.MapDataAccessObject;
-import interface_adapter.ViewManagerModel;
 import interface_adapter.profile.ProfileViewModel;
-import interface_adapter.start_sp_quiz.SPQuizViewModel;
-import interface_adapter.question.QuestionViewModel;
 import use_case.profile.ProfileDataAccessInterface;
-import view.MainMenuView;
 import view.ProfileView;
-import view.QuestionView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -58,7 +51,6 @@ public class Main {
 
         ProfileViewModel profileViewModel = new ProfileViewModel();
 
-        MapDataAccessObject mapDataAccessObject = new MapDataAccessObject();
         ProfileDataAccessInterface DAO = null;
         try{
             DAO = new FileUserDataAccessObject("./profile.csv");
@@ -77,7 +69,8 @@ public class Main {
         ProfileView profileView = new ProfileView(profileViewModel, viewManagerModel);
         views.add(profileView, profileView.viewName);
 
-        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel, profileViewModel, DAO, dummyDAO);
+        MainMenuView mainMenuView = MainMenuFactory.create(viewManagerModel, spQuizViewModel, questionViewModel,
+                                                           dummyDAO, profileViewModel, DAO);
         views.add(mainMenuView, mainMenuView.viewName);
 
         viewManagerModel.setActiveView(mainMenuView.viewName);
