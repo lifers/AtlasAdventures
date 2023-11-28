@@ -23,12 +23,12 @@ public class SPQuizPresenter implements SPQuizOutputBoundary {
         // For the following to work, the ViewModel viewName must be the same as the View viewName
         AnswerQuestionState quizState = new AnswerQuestionState(SPQuizOutputData.getQuiz());
         questionViewModel.setState(quizState);
+        questionViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(questionViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView() {
-
     }
 }
