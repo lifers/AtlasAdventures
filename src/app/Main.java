@@ -28,7 +28,7 @@ public class Main {
         FlatDarkLaf.setup();
         JFrame application = new JFrame("AtlasAdventures");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        application.setSize(600, 400);
+//        application.setSize(600, 400);
 
         CardLayout cardLayout = new CardLayout();
 
@@ -61,7 +61,7 @@ public class Main {
         // Dummy data access object, to be replaced with actual DAO
         GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
 
-        var questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel,
+        var questionViewPair = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel,
                                                              spQuizViewModel, quizEndedViewModel);
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);

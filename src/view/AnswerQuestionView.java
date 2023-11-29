@@ -8,17 +8,16 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.JMapViewerTree;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
-import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
-import org.openstreetmap.gui.jmapviewer.interfaces.JMapViewerEventListener;
 import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class AnswerQuestionView extends JPanel implements ActionListener, PropertyChangeListener, JMapViewerEventListener {
+public class AnswerQuestionView extends JPanel implements PropertyChangeListener {
     public static final String viewName = "AnswerQuestionView";
     private final AnswerQuestionController questionController;
     private final AnswerQuestionViewModel questionViewModel;
@@ -30,48 +29,44 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     private final MouseAdapter mapClicker = this.createMapClicker();
     private Coordinate lastClick = null;
 
-    public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController,
+    public AnswerQuestionView(AnswerQuestionController questionController,
                               AnswerQuestionViewModel questionViewModel) {
         this.questionController = questionController;
         this.questionViewModel = questionViewModel;
         this.questionViewModel.addPropertyChangeListener(this);
 
-        this.setSize(600, 400);
-        this.setLayout(new BorderLayout());
-        this.add(treeMap, BorderLayout.EAST);
+        this.setLayout(new GridBagLayout());
 
         var questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
-        questionPanel.setPreferredSize(new Dimension(200, 400));
-        preventExcessiveWidthShrink(parent, questionPanel, this.treeMap, 200);
-
-        this.add(questionPanel, BorderLayout.WEST);
+        questionPanel.setPreferredSize(new Dimension(200, 0));
+        questionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         questionPanel.add(this.questionText);
         questionPanel.add(Box.createVerticalGlue());
         questionPanel.add(this.submitButton);
         questionPanel.add(this.nextButton);
         questionPanel.add(this.totalScore);
+
+        var gbQuestionPanel = new GridBagConstraints();
+        gbQuestionPanel.gridx = 0;
+        gbQuestionPanel.fill = GridBagConstraints.VERTICAL;
+        gbQuestionPanel.anchor = GridBagConstraints.CENTER;
+        gbQuestionPanel.weighty = 1;
+
+        var gbTreeMap = new GridBagConstraints();
+        gbTreeMap.gridx = 1;
+        gbTreeMap.fill = GridBagConstraints.BOTH;
+        gbTreeMap.anchor = GridBagConstraints.CENTER;
+        gbTreeMap.weightx = 1;
+        gbTreeMap.weighty = 1;
+
+        this.add(questionPanel, gbQuestionPanel);
+        this.add(this.treeMap, gbTreeMap);
     }
 
     private JMapViewer map() {
         return treeMap.getViewer();
-    }
-
-    private static void preventExcessiveWidthShrink(Component parent, Component leftThird, Component rightThird,
-                                                    int leftMinWidth) {
-        parent.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                var parentWidth = parent.getWidth();
-                var leftWidth = Math.max(leftMinWidth, parentWidth / 3);
-                var rightWidth = parentWidth - leftWidth;
-                leftThird.setPreferredSize(new Dimension(leftWidth, leftThird.getHeight()));
-                rightThird.setPreferredSize(new Dimension(rightWidth, rightThird.getHeight()));
-                parent.revalidate();
-                parent.repaint();
-            }
-        });
     }
 
     private JMapViewerTree createTreeMap() {
@@ -89,7 +84,6 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
                 map.getViewer().setToolTipText(map.getViewer().getPosition(p).toString());
             }
         });
-        map.getViewer().addJMVListener(this);
         map.getViewer().setTileSource(new BingAerialTileSource());
         return map;
     }
@@ -153,16 +147,6 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     }
 
     /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("Click " + e.getActionCommand());
-    }
-
-    /**
      * This method gets called when a bound property is changed.
      *
      * @param evt A PropertyChangeEvent object describing the event source
@@ -185,13 +169,5 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
             }
             default -> throw new IllegalStateException("Unexpected value: " + evt.getNewValue());
         }
-    }
-
-    /**
-     * @param jmvCommandEvent
-     */
-    @Override
-    public void processCommand(JMVCommandEvent jmvCommandEvent) {
-
     }
 }
