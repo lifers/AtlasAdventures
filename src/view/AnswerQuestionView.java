@@ -10,6 +10,7 @@ import org.openstreetmap.gui.jmapviewer.JMapViewerTree;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
 import org.openstreetmap.gui.jmapviewer.interfaces.JMapViewerEventListener;
+import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,8 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     private final MouseAdapter mapClicker = this.createMapClicker();
     private Coordinate lastClick = null;
 
-    public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
+    public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController,
+                              AnswerQuestionViewModel questionViewModel) {
         this.questionController = questionController;
         this.questionViewModel = questionViewModel;
         this.questionViewModel.addPropertyChangeListener(this);
@@ -88,6 +90,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
             }
         });
         map.getViewer().addJMVListener(this);
+        map.getViewer().setTileSource(new BingAerialTileSource());
         return map;
     }
 
