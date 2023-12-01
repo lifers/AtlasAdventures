@@ -21,7 +21,7 @@ public class LeaderboardViewModel extends ViewModel {
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-
+        support.addPropertyChangeListener(listener);
     }
     public LeaderboardState getLeaderboardState() {
         return leaderboardState;

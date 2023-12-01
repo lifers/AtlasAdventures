@@ -12,4 +12,7 @@ public class LeaderboardState {
     public void setLeaderboard(ArrayList<Profile> leaderboard) {
         this.leaderboard = leaderboard;
     }
+    public ArrayList<Profile> getLeaderboard() {
+        return leaderboard;
+    }
 }
