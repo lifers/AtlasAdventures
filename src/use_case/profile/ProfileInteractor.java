@@ -18,7 +18,7 @@ public class ProfileInteractor implements ProfileInputBoundary{
     /**
      * Executes the profile use case.
      *
-     * @param inputData The input data for the profile use case.
+     * @param inputData The input data for the profile use case. (empty)
      */
     @Override
     public void execute(ProfileInputData inputData) {
