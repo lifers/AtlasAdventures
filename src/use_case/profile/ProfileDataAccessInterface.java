@@ -14,5 +14,7 @@ public interface ProfileDataAccessInterface {
 
     public Double getAverageScore();
 
+    public int getUid();
+
     public void update() throws IOException;
 }

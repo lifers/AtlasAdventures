@@ -10,6 +10,12 @@ public class Profile {
         this.games_played = games_played;
     }
 
+    public Profile(double average_score, int games_played){
+        this.average_score = average_score;
+        this.games_played = games_played;
+        this.uid = 0; // Default uid
+    }
+
     public double getAverage_score() {
         return average_score;
     }
@@ -37,8 +43,17 @@ public class Profile {
         }
         else {
             Profile other = (Profile) obj;
-            return this.average_score == other.average_score && this.games_played == other.games_played;
+            return this.average_score == other.average_score && this.games_played == other.games_played && this.uid == other.uid;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "uid='" + uid + '\'' +
+                ", avgScore='" + average_score + '\'' +
+                ", gamesPlayed=" + games_played +
+                '}';
     }
 
     public int getUid() {
