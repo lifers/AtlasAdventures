@@ -25,12 +25,20 @@ public class AnswerQuestionViewModel extends ViewModel {
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
+    private String makePropertyName() {
+        if (this.state.isAnswering()) {
+            return "answering";
+        } else {
+            return "not answering";
+        }
+    }
+
     /**
      *
      */
     @Override
     public void firePropertyChanged() {
-        support.firePropertyChange("state", null, this.state);
+        support.firePropertyChange(this.makePropertyName(), null, this.state);
     }
 
     /**

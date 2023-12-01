@@ -2,7 +2,6 @@ package view;
 
 import com.formdev.flatlaf.ui.FlatUIUtils;
 import interface_adapter.answer_question.AnswerQuestionController;
-import interface_adapter.answer_question.AnswerQuestionState;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
@@ -167,20 +166,20 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getNewValue()) {
-            case AnswerQuestionState state when state.isAnswering() -> {
-                this.totalScore.setText("Total score: " + String.format("%.2f", state.getTotalScore()));
-                this.questionText.setText(state.getQuiz().getCurrQuestion().getPrompt());
+        switch (evt.getPropertyName()) {
+            case "answering" -> {
+                this.totalScore.setText("Total score: " + String.format("%.2f", this.questionViewModel.getState().getTotalScore()));
+                this.questionText.setText(this.questionViewModel.getState().getQuiz().getCurrQuestion().getPrompt());
                 this.map().removeAllMapMarkers();
                 this.map().addMouseListener(this.mapClicker);
                 this.nextButton.setEnabled(false);
                 this.nextButton.setText(AnswerQuestionViewModel.NEXT_BUTTON_LABEL);
             }
-            case AnswerQuestionState state when !state.isAnswering() -> {
-                this.totalScore.setText("Total score: " + String.format("%.2f", state.getTotalScore()));
+            case "not answering" -> {
+                this.totalScore.setText("Total score: " + String.format("%.2f", this.questionViewModel.getState().getTotalScore()));
                 this.questionText.setText("Press Next");
             }
-            default -> throw new IllegalStateException("Unexpected value: " + evt.getNewValue());
+            default -> throw new IllegalStateException("Unexpected value: " + evt.getPropertyName());
         }
     }
 
