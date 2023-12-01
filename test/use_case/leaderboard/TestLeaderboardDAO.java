@@ -10,9 +10,9 @@ public class TestLeaderboardDAO implements LeaderboardDataAccessInterface{
     private ArrayList<Profile> leaderboard;
     private Comparator<Profile> profileComparator;
     public TestLeaderboardDAO() {
-        Profile p1 = new Profile(1, 1);
-        Profile p2 = new Profile(2, 4);
-        Profile p3 = new Profile(10, 30);
+        Profile p1 = new Profile(1,1, 1);
+        Profile p2 = new Profile(2,2, 4);
+        Profile p3 = new Profile(3,10, 30);
         this.leaderboard = new ArrayList<Profile>(Arrays.asList(p1, p2, p3));
         this.profileComparator = new Comparator<Profile>() {
             @Override
@@ -33,6 +33,22 @@ public class TestLeaderboardDAO implements LeaderboardDataAccessInterface{
     @Override
     public ArrayList<Profile> getLeaderboard() {
         return leaderboard;
+    }
+
+    @Override
+    public boolean uidExists(int uid) {
+        return uid == 1 || uid == 2 || uid == 3;
+    }
+
+    @Override
+    public void updateProfile(Profile profile) {
+        int uid = profile.getUid();
+        for (Profile p : leaderboard) {
+            if (p.getUid() == uid) {
+                p.setAverage_score(profile.getAverage_score());
+                p.setGames_played(profile.getGames_played());
+            }
+        }
     }
 
     @Override

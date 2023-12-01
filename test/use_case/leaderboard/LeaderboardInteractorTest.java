@@ -2,7 +2,9 @@ package use_case.leaderboard;
 
 import entity.Profile;
 import org.junit.jupiter.api.Test;
+import use_case.profile.ProfileDataAccessInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,6 +14,7 @@ public class LeaderboardInteractorTest {
     @Test
     void successTest() {
         LeaderboardDataAccessInterface leaderboardDAO = new TestLeaderboardDAO();
+        ProfileDataAccessInterface profileDAO = new TestProfileDAO();
 
         // This creates a successPresenter that tests whether the test case is as we expect.
         LeaderboardOutputBoundary successPresenter = new LeaderboardOutputBoundary() {
@@ -31,13 +34,14 @@ public class LeaderboardInteractorTest {
             }
         };
 
-        LeaderboardInputBoundary leaderboardInteractor = new LeaderboardInteractor(successPresenter, leaderboardDAO);
+        LeaderboardInputBoundary leaderboardInteractor = new LeaderboardInteractor(successPresenter, leaderboardDAO, profileDAO);
         leaderboardInteractor.execute();
     }
 
     @Test
     void noLeaderboardTest() {
         LeaderboardDataAccessInterface leaderboardDAO = new TestLeaderboardDAO();
+        ProfileDataAccessInterface profileDAO = new TestProfileDAO();
 
         // This creates a presenter that tests whether the test case is as we expect.
         LeaderboardOutputBoundary failurePresenter = new LeaderboardOutputBoundary() {
@@ -52,7 +56,40 @@ public class LeaderboardInteractorTest {
             }
         };
 
-        LeaderboardInputBoundary interactor = new LeaderboardInteractor(failurePresenter, leaderboardDAO);
+        LeaderboardInputBoundary interactor = new LeaderboardInteractor(failurePresenter, leaderboardDAO, profileDAO);
         interactor.execute();
+    }
+
+    private class TestProfileDAO implements ProfileDataAccessInterface {
+
+        @Override
+        public void setGamesPlayed(int gamesPlayed) {
+
+        }
+
+        @Override
+        public void setAverageScore(Double score) {
+
+        }
+
+        @Override
+        public int getGamesPlayed() {
+            return 10;
+        }
+
+        @Override
+        public Double getAverageScore() {
+            return 10.0;
+        }
+
+        @Override
+        public int getUid() {
+            return 0;
+        }
+
+        @Override
+        public void update() throws IOException {
+
+        }
     }
 }

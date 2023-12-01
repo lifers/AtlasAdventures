@@ -39,7 +39,7 @@ public class MainMenuFactory {
 
         SPQuizController spQuizController = createSPQuizUseCase(viewManagerModel, spQuizViewModel, answerQuestionViewModel, spQuizDAO);
         ProfileController profileController = createProfileUseCase(viewManagerModel, profileViewModel, profileDAO);
-        LeaderboardController leaderboardController = createLeaderboardUseCase(viewManagerModel, leaderboardViewModel, leaderboardDAO);
+        LeaderboardController leaderboardController = createLeaderboardUseCase(viewManagerModel, leaderboardViewModel, leaderboardDAO, profileDAO);
         return new MainMenuView(
                 spQuizController, spQuizViewModel,
                 leaderboardController, leaderboardViewModel,
@@ -70,10 +70,11 @@ public class MainMenuFactory {
 
     private static LeaderboardController createLeaderboardUseCase(ViewManagerModel viewManagerModel,
                                                                   LeaderboardViewModel leaderboardViewModel,
-                                                                  LeaderboardDataAccessInterface leaderboardDAO) {
+                                                                  LeaderboardDataAccessInterface leaderboardDAO,
+                                                                  ProfileDataAccessInterface profileDAO) {
         LeaderboardOutputBoundary leaderboardPresenter = new LeaderboardPresenter(viewManagerModel, leaderboardViewModel);
 
-        LeaderboardInputBoundary leaderboardInteractor = new LeaderboardInteractor(leaderboardPresenter, leaderboardDAO);
+        LeaderboardInputBoundary leaderboardInteractor = new LeaderboardInteractor(leaderboardPresenter, leaderboardDAO, profileDAO);
 
         return new LeaderboardController(leaderboardInteractor);
     }
