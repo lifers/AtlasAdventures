@@ -8,6 +8,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import use_case.answer_question.AnswerQuestionInteractor;
+import use_case.profile.ProfileDataAccessInterface;
 import view.AnswerQuestionView;
 import view.AnswerQuestionViewPair;
 import view.QuizEndedView;
@@ -19,7 +20,7 @@ public class QuestionUseCaseFactory {
     }
 
     public static AnswerQuestionViewPair create(ViewManagerModel viewManagerModel, AnswerQuestionViewModel questionViewModel,
-                                                SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dao) {
+                                                SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, ProfileDataAccessInterface dao) {
         var questionController = createQuestionUseCase(viewManagerModel, questionViewModel, spQuizViewModel, quizEndedViewModel, dao);
         var answerQuestionView = new AnswerQuestionView(questionController, questionViewModel);
         var quizEndedView = new QuizEndedView(questionController, quizEndedViewModel);
@@ -29,7 +30,7 @@ public class QuestionUseCaseFactory {
     private static AnswerQuestionController createQuestionUseCase(ViewManagerModel viewManagerModel,
                                                                   AnswerQuestionViewModel questionViewModel,
                                                                   SPQuizViewModel spQuizViewModel,
-                                                                  QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dao) {
+                                                                  QuizEndedViewModel quizEndedViewModel, ProfileDataAccessInterface dao) {
         var questionOutputBoundary = new AnswerQuestionPresenter(viewManagerModel, questionViewModel,
                                                                  spQuizViewModel, quizEndedViewModel, dao);
         var questionInteractor = new AnswerQuestionInteractor(questionOutputBoundary);
