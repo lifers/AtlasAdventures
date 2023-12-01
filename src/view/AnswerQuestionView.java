@@ -29,7 +29,7 @@ public class AnswerQuestionView extends JPanel implements PropertyChangeListener
     private final MouseAdapter mapClicker = this.createMapClicker();
     private Coordinate lastClick = null;
 
-    public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
+    public AnswerQuestionView(AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
         this.answerQuestionController = questionController;
         this.answerQuestionViewModel = questionViewModel;
         this.answerQuestionViewModel.addPropertyChangeListener(this);

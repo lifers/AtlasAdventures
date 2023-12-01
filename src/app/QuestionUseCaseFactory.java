@@ -2,12 +2,12 @@ package app;
 
 import data_access.FileUserDataAccessObject;
 import interface_adapter.answer_question.AnswerQuestionController;
-import interface_adapter.answer_question.AnswerQuestionPresenter;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.answer_question.QuizEndedViewModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import use_case.answer_question.AnswerQuestionInteractor;
+import use_case.answer_question.AnswerQuestionOutputBoundary;
 import use_case.profile.ProfileDataAccessInterface;
 import view.AnswerQuestionView;
 import view.AnswerQuestionViewPair;
@@ -31,9 +31,9 @@ public class QuestionUseCaseFactory {
                                                                   AnswerQuestionViewModel questionViewModel,
                                                                   SPQuizViewModel spQuizViewModel,
                                                                   QuizEndedViewModel quizEndedViewModel, ProfileDataAccessInterface dao) {
-        var questionOutputBoundary = new AnswerQuestionPresenter(viewManagerModel, questionViewModel,
+        AnswerQuestionOutputBoundary questionOutputBoundary = new AnswerQuestionPresenter(viewManagerModel, questionViewModel,
                                                                  spQuizViewModel, quizEndedViewModel, dao);
-        var questionInteractor = new AnswerQuestionInteractor(questionOutputBoundary);
+        AnswerQuestionInteractor questionInteractor = new AnswerQuestionInteractor(questionOutputBoundary);
 
         return new AnswerQuestionController(questionInteractor, questionViewModel);
     }

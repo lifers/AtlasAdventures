@@ -8,7 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="maprendersample" />
         <module name="AtlasAdventures" />
+        <module name="atlasadventures" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="atlasadventures" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
