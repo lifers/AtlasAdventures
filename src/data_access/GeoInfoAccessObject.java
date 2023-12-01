@@ -38,11 +38,12 @@ public class GeoInfoAccessObject implements SPQuizDataAccessInterface {
                 e.printStackTrace();
             }
             JSONObject jsonObj = new JSONObject(response.body());
-            System.out.println(response.body());
             List<String> info = new ArrayList<String>();
             info.add(jsonObj.getString("name"));
             info.add(jsonObj.getString("latitude") + "d");
             info.add(jsonObj.getString("longitude") + "d");
+            info.add(jsonObj.getString("capital"));
+            info.add(jsonObj.getString("iso3"));
             if (!returnInfo.contains(info)) {
                 returnInfo.add(info);
             }

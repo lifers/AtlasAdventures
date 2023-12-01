@@ -21,12 +21,29 @@ public class SPQuizInteractor implements SPQuizInputBoundary {
         List<Question> questions = new ArrayList<>();
 
         for (int i = 0; i < 10; i++ ) {
-            Double latitude = Double.valueOf(newInfo.get(i).get(1));
-            Double longitude = Double.valueOf(newInfo.get(i).get(2));
-            Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            String prompt = "Click on the country: " + newInfo.get(i).get(0);
-            Question newQuestion = new Question(newCoordinate, prompt);
-            questions.add(newQuestion);
+            int randomNumber = (int) Math.round((Math.random() * 2));
+            if (randomNumber == 0) {
+                Double latitude = Double.valueOf(newInfo.get(i).get(1));
+                Double longitude = Double.valueOf(newInfo.get(i).get(2));
+                Coordinate newCoordinate = new Coordinate(latitude, longitude);
+                String prompt = "Click on the country: " + newInfo.get(i).get(0);
+                Question newQuestion = new Question(newCoordinate, prompt);
+                questions.add(newQuestion);
+            } else if (randomNumber == 1) {
+                Double latitude = Double.valueOf(newInfo.get(i).get(1));
+                Double longitude = Double.valueOf(newInfo.get(i).get(2));
+                Coordinate newCoordinate = new Coordinate(latitude, longitude);
+                String prompt = "Click on the country who's capital is: " + newInfo.get(i).get(3);
+                Question newQuestion = new Question(newCoordinate, prompt);
+                questions.add(newQuestion);
+            } else {
+                Double latitude = Double.valueOf(newInfo.get(i).get(1));
+                Double longitude = Double.valueOf(newInfo.get(i).get(2));
+                Coordinate newCoordinate = new Coordinate(latitude, longitude);
+                String prompt = "Click on the country who's abbreviation is: " + newInfo.get(i).get(4);
+                Question newQuestion = new Question(newCoordinate, prompt);
+                questions.add(newQuestion);
+            }
         }
         Quiz quiz = new Quiz(questions);
         SPQuizOutputData outputData = new SPQuizOutputData(quiz);
