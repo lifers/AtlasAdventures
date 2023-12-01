@@ -62,7 +62,7 @@ public class Main {
         GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
 
         var questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel,
-                                                             spQuizViewModel, quizEndedViewModel);
+                                                             spQuizViewModel, quizEndedViewModel, (FileUserDataAccessObject) DAO);
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
 
