@@ -67,7 +67,7 @@ public class FileUserDataAccessObject implements ProfileDataAccessInterface {
             this.profile.setGames_played(gamesPlayed);
         }
     }
-    private void save() {
+    public void save() {
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(csvFile));

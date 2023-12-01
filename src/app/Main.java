@@ -61,8 +61,8 @@ public class Main {
         // Dummy data access object, to be replaced with actual DAO
         GeoInfoAccessObject dummyDAO = new GeoInfoAccessObject();
 
-        var questionViewPair = QuestionUseCaseFactory.create(viewManagerModel, questionViewModel,
-                                                             spQuizViewModel, quizEndedViewModel);
+        var questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, questionViewModel,
+                                                             spQuizViewModel, quizEndedViewModel, (FileUserDataAccessObject) DAO);
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
 

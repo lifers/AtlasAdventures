@@ -1,5 +1,6 @@
 package app;
 
+import data_access.FileUserDataAccessObject;
 import interface_adapter.answer_question.AnswerQuestionController;
 import interface_adapter.answer_question.AnswerQuestionPresenter;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
@@ -18,8 +19,8 @@ public class QuestionUseCaseFactory {
     }
 
     public static AnswerQuestionViewPair create(ViewManagerModel viewManagerModel, AnswerQuestionViewModel questionViewModel,
-                                                SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel) {
-        var questionController = createQuestionUseCase(viewManagerModel, questionViewModel, spQuizViewModel, quizEndedViewModel);
+                                                SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dao) {
+        var questionController = createQuestionUseCase(viewManagerModel, questionViewModel, spQuizViewModel, quizEndedViewModel, dao);
         var answerQuestionView = new AnswerQuestionView(questionController, questionViewModel);
         var quizEndedView = new QuizEndedView(questionController, quizEndedViewModel);
         return new AnswerQuestionViewPair(answerQuestionView, quizEndedView);
@@ -28,9 +29,9 @@ public class QuestionUseCaseFactory {
     private static AnswerQuestionController createQuestionUseCase(ViewManagerModel viewManagerModel,
                                                                   AnswerQuestionViewModel questionViewModel,
                                                                   SPQuizViewModel spQuizViewModel,
-                                                                  QuizEndedViewModel quizEndedViewModel) {
+                                                                  QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dao) {
         var questionOutputBoundary = new AnswerQuestionPresenter(viewManagerModel, questionViewModel,
-                                                                 spQuizViewModel, quizEndedViewModel);
+                                                                 spQuizViewModel, quizEndedViewModel, dao);
         var questionInteractor = new AnswerQuestionInteractor(questionOutputBoundary);
 
         return new AnswerQuestionController(questionInteractor, questionViewModel);

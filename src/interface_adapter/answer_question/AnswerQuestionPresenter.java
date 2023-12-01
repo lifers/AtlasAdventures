@@ -1,9 +1,12 @@
 package interface_adapter.answer_question;
 
+import data_access.FileUserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import use_case.answer_question.AnswerQuestionOutputBoundary;
 import use_case.answer_question.AnswerQuestionOutputData;
+
+import java.io.IOException;
 
 public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     private final ViewManagerModel viewManagerModel;
@@ -11,12 +14,15 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     private final AnswerQuestionViewModel answerQuestionViewModel;
     private final QuizEndedViewModel quizEndedViewModel;
 
+    private final FileUserDataAccessObject dataAccessObject;
+
     public AnswerQuestionPresenter(ViewManagerModel viewManagerModel, AnswerQuestionViewModel answerQuestionViewModel,
-                                   SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel) {
+                                   SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dataAccessObject) {
         this.viewManagerModel = viewManagerModel;
         this.spQuizViewModel = spQuizViewModel;
         this.answerQuestionViewModel = answerQuestionViewModel;
         this.quizEndedViewModel = quizEndedViewModel;
+        this.dataAccessObject = dataAccessObject;
     }
 
     /**
@@ -28,6 +34,18 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     public void prepareEndQuizView() {
         this.quizEndedViewModel.setState(this.answerQuestionViewModel.getState());
         this.quizEndedViewModel.firePropertyChanged();
+
+        // update the csv
+        double score = quizEndedViewModel.getState().getTotalScore();
+        int currGamesPlayed = dataAccessObject.getGamesPlayed();
+        try {
+            dataAccessObject.update();
+            dataAccessObject.setGamesPlayed(currGamesPlayed + 1);
+            dataAccessObject.setAverageScore((currGamesPlayed * dataAccessObject.getAverageScore() + score) / (currGamesPlayed + 1));
+            dataAccessObject.save();
+        } catch (IOException e){
+        }
+
         this.viewManagerModel.setActiveView(this.quizEndedViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
