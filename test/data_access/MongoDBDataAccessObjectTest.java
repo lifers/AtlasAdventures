@@ -51,8 +51,6 @@ class MongoDBDataAccessObjectTest {
         p1.setGames_played(15);
         p2.setAverage_score(9);
         ArrayList<Profile> updated_leaderboard = new ArrayList<>(Arrays.asList(p2, p1));
-
-        ArrayList<Profile> initial_leaderboard = dao.getLeaderboard();
         assertNotSame(dao.getLeaderboard(), updated_leaderboard);
 
         dao.updateProfile(p1);

@@ -5,6 +5,7 @@ import entity.Profile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 public class TestLeaderboardDAO implements LeaderboardDataAccessInterface{
     private ArrayList<Profile> leaderboard;
@@ -55,5 +56,10 @@ public class TestLeaderboardDAO implements LeaderboardDataAccessInterface{
     public void addProfile(Profile profile) {
         leaderboard.add(profile);
         leaderboard.sort(profileComparator);
+    }
+
+    @Override
+    public int generateNewUid() {
+        return 0;
     }
 }
