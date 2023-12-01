@@ -1,5 +1,7 @@
 package data_access;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -11,6 +13,18 @@ class FileUserDataAccessObjectTest {
     /**
      * Test case for the update method in FileUserDataAccessObject class.
      */
+    @BeforeAll
+    static void setUp() {
+        // Set up the initial state of the test data
+        try{
+            FileUserDataAccessObject dataAccessObject = new FileUserDataAccessObject("test.csv");
+            dataAccessObject.setAverageScore(7.2);
+            dataAccessObject.setGamesPlayed(15);
+            dataAccessObject.save();
+        } catch (IOException e){
+            fail("Initializer error in FileUserDataAccessObject");
+        }
+    }
     @Test
     void update() throws IOException {
         // Create a test instance of FileUserDataAccessObject
