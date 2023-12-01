@@ -14,11 +14,16 @@ public class ProfilePresenter implements ProfileOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Prepares the success view with the given profile output data.
+     *
+     * @param  outputData  the profile output data to be used
+     */
     @Override
     public void prepareSuccessView(ProfileOutputData outputData) {
         int gamesPlayed = outputData.getGamesPlayed();
         double score = outputData.getAverageScore();
-        String text = "Games Played: " + String.valueOf(gamesPlayed) + "\nAverage Score: " + String.valueOf(score);
+        String text = "Games Played: " + String.valueOf(gamesPlayed) + "       Average Score: " + String.format("%.2f", score);
         profileViewModel.setDisplayText(text);
         profileViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(profileViewModel.getViewName());

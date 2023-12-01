@@ -29,14 +29,14 @@ public class ProfileView extends JPanel implements PropertyChangeListener {
         this.viewManagerModel = viewManagerModel;
         this.profileViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("           Profile Statistics");
-        // title.setAlignmentX(CENTER_ALIGNMENT);
+        this.setLayout(new GridBagLayout());
+
+        JLabel title = new JLabel("Profile Statistics");
+        title.setAlignmentX(CENTER_ALIGNMENT);
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 40));
 
 
-        JPanel buttons = new JPanel();
         back = new JButton(ProfileViewModel.BACK_BUTTON_LABEL);
-        buttons.add(back);
 
         back.addActionListener(
             new ActionListener() {
@@ -52,18 +52,25 @@ public class ProfileView extends JPanel implements PropertyChangeListener {
 
         displayLabel.setText(this.displayText);
         displayLabel.setFont(new Font(displayLabel.getFont().getName(), Font.BOLD, 20));
+        displayLabel.setAlignmentX(CENTER_ALIGNMENT);
 
+        var gbTitle = new GridBagConstraints();
+        gbTitle.gridy = 0;
 
-        this.setSize(400,400);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        var gbDisplay = new GridBagConstraints();
+        gbDisplay.gridy = 1;
 
-        this.add(title);
-        this.add(displayLabel);
-        this.add(buttons);
+        var gbBack = new GridBagConstraints();
+        gbBack.gridy = 2;
+        gbBack.insets = new Insets(10, 0, 0, 0);
+
+        this.add(title, gbTitle);
+        this.add(displayLabel, gbDisplay);
+        this.add(back, gbBack);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        this.displayText = "                 " + this.profileViewModel.getDisplayText();
+        this.displayText = this.profileViewModel.getDisplayText();
         displayLabel.setText(this.displayText);
 
     }
