@@ -1,0 +1,17 @@
+Index: src/view/LeaderboardView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package view;\r\n\r\nimport interface_adapter.ViewManagerModel;\r\nimport interface_adapter.leaderboard.LeaderboardController;\r\nimport interface_adapter.leaderboard.LeaderboardViewModel;\r\nimport interface_adapter.profile.ProfileController;\r\nimport interface_adapter.profile.ProfileViewModel;\r\nimport interface_adapter.start_sp_quiz.SPQuizController;\r\nimport interface_adapter.start_sp_quiz.SPQuizState;\r\nimport interface_adapter.start_sp_quiz.SPQuizViewModel;\r\n\r\nimport javax.swing.*;\r\nimport javax.swing.table.DefaultTableModel;\r\nimport java.awt.*;\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\nimport java.beans.PropertyChangeEvent;\r\n\r\npublic class LeaderboardView extends JPanel {\r\n    public final String viewName;\r\n    private final LeaderboardViewModel leaderboardViewModel;\r\n    private final ViewManagerModel viewManagerModel;\r\n    private final JButton back;\r\n\r\n    public LeaderboardView(LeaderboardViewModel leaderboardViewModel, ViewManagerModel viewManagerModel) {\r\n        this.viewManagerModel = viewManagerModel;\r\n        this.leaderboardViewModel = leaderboardViewModel;\r\n        this.viewName = this.leaderboardViewModel.getViewName();\r\n        JLabel title = new JLabel(LeaderboardViewModel.TITLE_LABEL);\r\n        title.setAlignmentX(Component.CENTER_ALIGNMENT);\r\n\r\n        Object[][] data = {\r\n                {\"Player1\", 100},\r\n                {\"Player2\", 90},\r\n                {\"Player3\", 80},\r\n        };\r\n\r\n        String[] columnNames = {\"Player\", \"Score\"};\r\n\r\n        DefaultTableModel model = new DefaultTableModel(data, columnNames);\r\n        JTable leaderboardTable = new JTable(model);\r\n\r\n        JScrollPane scrollPane = new JScrollPane(leaderboardTable);\r\n\r\n        JPanel buttons = new JPanel();\r\n        back = new JButton(\"Back\");\r\n        buttons.add(back);\r\n\r\n        back.addActionListener(\r\n                new ActionListener() {\r\n                    public void actionPerformed(ActionEvent evt) {\r\n                        if (evt.getSource().equals(back)) {\r\n                            viewManagerModel.setActiveView(\"MainMenuView\");\r\n                            viewManagerModel.firePropertyChanged();\r\n                        }\r\n                    }\r\n                }\r\n        );\r\n\r\n\r\n\r\n        this.setSize(400,400);\r\n        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));\r\n        this.add(title);\r\n        this.add(scrollPane);\r\n        this.add(buttons);\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/view/LeaderboardView.java b/src/view/LeaderboardView.java
+--- a/src/view/LeaderboardView.java	
++++ b/src/view/LeaderboardView.java	
+@@ -57,8 +57,6 @@
+                 }
+         );
+ 
+-
+-
+         this.setSize(400,400);
+         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+         this.add(title);
