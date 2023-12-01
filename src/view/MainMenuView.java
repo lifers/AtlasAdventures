@@ -22,7 +22,7 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
     private final ProfileViewModel profileViewModel;
     private final ProfileController profileController;
     private final JButton spQuiz;
-    private final JButton mpQuiz;
+    private final JButton leaderboard;
     private final JButton profile;
 
     public MainMenuView(SPQuizController spQuizController, SPQuizViewModel spQuizViewModel, ProfileViewModel profileViewModel, ProfileController profileController) {
@@ -35,14 +35,16 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
 
         JLabel title = new JLabel("Main Menu");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font(title.getFont().getName(), Font.BOLD, 40));
 
         JPanel buttons = new JPanel();
         spQuiz = new JButton(SPQuizViewModel.SPQUIZ_BUTTON_LABEL);
         buttons.add(spQuiz);
-        mpQuiz = new JButton("Unimplemented MPQuiz");
-        buttons.add(mpQuiz);
-        profile = new JButton("Unimplemented Profile");
+        profile = new JButton("Local Profile Statistics");
         buttons.add(profile);
+        leaderboard = new JButton("LeaderBoard");
+        buttons.add(leaderboard);
+
 
         spQuiz.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
