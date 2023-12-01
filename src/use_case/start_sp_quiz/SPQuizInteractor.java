@@ -3,7 +3,7 @@ package use_case.start_sp_quiz;
 import entity.Quiz;
 import entity.Question;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
-
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,8 @@ public class SPQuizInteractor implements SPQuizInputBoundary {
         List<Question> questions = new ArrayList<>();
 
         for (int i = 0; i < 10; i++ ) {
-            int randomNumber = (int) Math.round((Math.random() * 2));
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(3);
             if (randomNumber == 0) {
                 Double latitude = Double.valueOf(newInfo.get(i).get(1));
                 Double longitude = Double.valueOf(newInfo.get(i).get(2));
