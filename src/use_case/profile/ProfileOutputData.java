@@ -1,11 +1,8 @@
 package use_case.profile;
-
-import entity.Profile;
-
 public class ProfileOutputData {
 
-    private double averageScore;
-    private int gamesPlayed;
+    private final double averageScore;
+    private final int gamesPlayed;
 
     public ProfileOutputData(double averageScore, int gamesPlayed) {
         this.averageScore = averageScore;
@@ -22,29 +19,11 @@ public class ProfileOutputData {
     }
 
     /**
-     * Set the average score.
-     *
-     * @param  averageScore  the new average score
-     */
-    public void setAverageScore(double averageScore) {
-        this.averageScore = averageScore;
-    }
-
-    /**
      * Retrieves the number of games played.
      *
      * @return the number of games played
      */
     public int getGamesPlayed() {
         return gamesPlayed;
-    }
-
-    /**
-     * Sets the number of games played.
-     *
-     * @param  gamesPlayed  the number of games played
-     */
-    public void setGamesPlayed(int gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
     }
 }

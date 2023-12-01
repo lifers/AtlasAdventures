@@ -1,5 +1,6 @@
 package interface_adapter.answer_question;
 
+import entity.Profile;
 import entity.Question;
 import entity.Quiz;
 import interface_adapter.ViewManagerModel;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import use_case.answer_question.AnswerQuestionOutputData;
+import use_case.profile.ProfileDataAccessInterface;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,12 +17,47 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface {
+    @Override
+    default void update() {
+        fail("wrong function to call");
+    }
+
+    @Override
+    default void save() {
+        fail("wrong function to call");
+    }
+
+    @Override
+    default void setGamesPlayed(int gamesPlayed) {
+        fail("wrong function to call");
+    }
+
+    @Override
+    default int getGamesPlayed() {
+        fail("wrong function to call");
+        return -1;
+    }
+
+    @Override
+    default void setAverageScore(Double score) {
+        fail("wrong function to call");
+    }
+
+    @Override
+    default Double getAverageScore() {
+        fail("wrong function to call");
+        return null;
+    }
+}
+
 class AnswerQuestionPresenterTest {
     ViewManagerModel viewManagerModel;
     AnswerQuestionViewModel answerQuestionViewModel;
     SPQuizViewModel spQuizViewModel;
     QuizEndedViewModel quizEndedViewModel;
     AnswerQuestionState state;
+    ProfileDataAccessInterfaceTest dao;
 
     @BeforeEach
     void init() {
@@ -38,8 +75,9 @@ class AnswerQuestionPresenterTest {
     @Test
     void prepareEndQuizView() {
         // Go to the end of the quiz
-        answerQuestionViewModel.getState().getQuiz().nextQuestion();
-        answerQuestionViewModel.getState().getQuiz().nextQuestion();
+        this.answerQuestionViewModel.getState().getQuiz().nextQuestion();
+        this.answerQuestionViewModel.getState().getQuiz().nextQuestion();
+        this.answerQuestionViewModel.getState().addTotalScore(180.0);
 
         var interceptor = new PropertyChangeListener() {
             @Override
@@ -59,10 +97,42 @@ class AnswerQuestionPresenterTest {
             }
         };
 
+        var dataAccess = new ProfileDataAccessInterfaceTest() {
+            @Override
+            public void update() {
+                // Correct
+            }
+
+            @Override
+            public void save() {
+                // Correct
+            }
+
+            @Override
+            public int getGamesPlayed() {
+                return 5;
+            }
+
+            @Override
+            public void setGamesPlayed(int gamesPlayed) {
+                assertEquals(6, gamesPlayed);
+            }
+
+            @Override
+            public Double getAverageScore() {
+                return 120.0;
+            }
+
+            @Override
+            public void setAverageScore(Double score) {
+                assertEquals(130.0, score);
+            }
+        };
+
         this.quizEndedViewModel.addPropertyChangeListener(interceptor);
         this.viewManagerModel.addPropertyChangeListener(interceptor);
         var presenter = new AnswerQuestionPresenter(this.viewManagerModel, this.answerQuestionViewModel,
-                                                    this.spQuizViewModel, this.quizEndedViewModel);
+                                                    this.spQuizViewModel, this.quizEndedViewModel, dataAccess);
         presenter.prepareEndQuizView();
     }
 
@@ -84,7 +154,7 @@ class AnswerQuestionPresenterTest {
 
         this.answerQuestionViewModel.addPropertyChangeListener(interceptor);
         var presenter = new AnswerQuestionPresenter(this.viewManagerModel, this.answerQuestionViewModel,
-                                                    this.spQuizViewModel, this.quizEndedViewModel);
+                                                    this.spQuizViewModel, this.quizEndedViewModel, this.dao);
         presenter.prepareNextQuestionView();
     }
 
@@ -109,7 +179,7 @@ class AnswerQuestionPresenterTest {
 
         this.answerQuestionViewModel.addPropertyChangeListener(interceptor);
         var presenter = new AnswerQuestionPresenter(this.viewManagerModel, this.answerQuestionViewModel,
-                                                    this.spQuizViewModel, this.quizEndedViewModel);
+                                                    this.spQuizViewModel, this.quizEndedViewModel, this.dao);
         presenter.prepareAnsweredView(result);
     }
 
@@ -130,7 +200,7 @@ class AnswerQuestionPresenterTest {
 
         this.viewManagerModel.addPropertyChangeListener(interceptor);
         var presenter = new AnswerQuestionPresenter(this.viewManagerModel, this.answerQuestionViewModel,
-                                                    this.spQuizViewModel, this.quizEndedViewModel);
+                                                    this.spQuizViewModel, this.quizEndedViewModel, this.dao);
         presenter.returnToMainMenu();
     }
 }
