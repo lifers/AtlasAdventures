@@ -26,6 +26,8 @@ interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface{
     }
 
     default void update() throws IOException{}
+
+    default void save() {fail();}
 }
 class ProfileInteractorTest {
 
