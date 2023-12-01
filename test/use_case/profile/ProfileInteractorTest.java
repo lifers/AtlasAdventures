@@ -30,16 +30,33 @@ interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface{
 class ProfileInteractorTest {
 
     /**
-     * This method tests that the ProfileInteractor class calls the update
-     * method of the callsDataAccess method in the ProfileInteractor class.
-     */
-    @Test
-    void callsDataAccess() {
-
-    }
-    /**
      * This method tests that the ProfileInteractor Creates the proper OutputData
      */
+    @Test
     void createsOutputData() {
+        ProfileOutputBoundaryTest presenter = new ProfileOutputBoundaryTest() {
+            @Override
+            public void prepareSuccessView(ProfileOutputData outputData) {
+                assertEquals(0.0, outputData.getAverageScore());
+                assertEquals(0, outputData.getAverageScore());
+            }
+        }; // presenter
+        ProfileDataAccessInterfaceTest dataAccess = new ProfileDataAccessInterfaceTest() {
+            @Override
+            public void update() throws IOException {
+
+            }
+            @Override
+            public Double getAverageScore() {
+                return 0.0;
+            }
+            @Override
+            public int getGamesPlayed() {
+                return 0;
+            }
+
+        };
+        ProfileInteractor interactor = new ProfileInteractor(presenter, dataAccess);
+        interactor.execute(new ProfileInputData());
     }
 }
