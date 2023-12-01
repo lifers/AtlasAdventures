@@ -18,10 +18,10 @@ public class QuestionUseCaseFactory {
     private QuestionUseCaseFactory() {
     }
 
-    public static AnswerQuestionViewPair create(JPanel parent, ViewManagerModel viewManagerModel, AnswerQuestionViewModel questionViewModel,
+    public static AnswerQuestionViewPair create(ViewManagerModel viewManagerModel, AnswerQuestionViewModel questionViewModel,
                                                 SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dao) {
         var questionController = createQuestionUseCase(viewManagerModel, questionViewModel, spQuizViewModel, quizEndedViewModel, dao);
-        var answerQuestionView = new AnswerQuestionView(parent, questionController, questionViewModel);
+        var answerQuestionView = new AnswerQuestionView(questionController, questionViewModel);
         var quizEndedView = new QuizEndedView(questionController, quizEndedViewModel);
         return new AnswerQuestionViewPair(answerQuestionView, quizEndedView);
     }

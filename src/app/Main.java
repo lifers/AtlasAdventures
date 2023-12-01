@@ -28,7 +28,7 @@ public class Main {
         FlatDarkLaf.setup();
         JFrame application = new JFrame("AtlasAdventures");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        application.setSize(600, 400);
+//        application.setSize(600, 400);
 
         CardLayout cardLayout = new CardLayout();
 
