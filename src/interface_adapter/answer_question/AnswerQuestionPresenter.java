@@ -5,6 +5,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.start_sp_quiz.SPQuizViewModel;
 import use_case.answer_question.AnswerQuestionOutputBoundary;
 import use_case.answer_question.AnswerQuestionOutputData;
+import use_case.profile.ProfileDataAccessInterface;
 
 import java.io.IOException;
 
@@ -14,10 +15,10 @@ public class AnswerQuestionPresenter implements AnswerQuestionOutputBoundary {
     private final AnswerQuestionViewModel answerQuestionViewModel;
     private final QuizEndedViewModel quizEndedViewModel;
 
-    private final FileUserDataAccessObject dataAccessObject;
+    private final ProfileDataAccessInterface dataAccessObject;
 
     public AnswerQuestionPresenter(ViewManagerModel viewManagerModel, AnswerQuestionViewModel answerQuestionViewModel,
-                                   SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, FileUserDataAccessObject dataAccessObject) {
+                                   SPQuizViewModel spQuizViewModel, QuizEndedViewModel quizEndedViewModel, ProfileDataAccessInterface dataAccessObject) {
         this.viewManagerModel = viewManagerModel;
         this.spQuizViewModel = spQuizViewModel;
         this.answerQuestionViewModel = answerQuestionViewModel;
