@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import static com.mongodb.client.model.Updates.combine;
 import static java.lang.reflect.Array.set;
 
-public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface {
+public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, AutoCloseable {
     private final MongoClient mongoClient;
     private final MongoDatabase database;
     private final MongoCollection<Document> collection;
@@ -59,12 +59,10 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface {
             System.err.println("Error clearing collection: " + e.getMessage());
         }
     }
-
+    @Override
     public void close() {
-        try {
+        if (mongoClient != null) {
             mongoClient.close();
-        } catch (Exception e) {
-            System.err.println("Error closing connection: " + e);
         }
     }
 
@@ -127,5 +125,21 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface {
         profileDoc.append("avgScore", profile.getAverage_score());
         profileDoc.append("gamesPlayed", profile.getGames_played());
         insertDocument(profileDoc);
+    }
+
+    @Override
+    public int generateNewUid() {
+        try {
+            Document largestUidDoc = collection.find().sort(new Document("uid", -1)).first();
+            if (largestUidDoc != null) {
+                int largestUid = largestUidDoc.getInteger("uid");
+                return largestUid + 1;
+            } else {
+                return 1;
+            }
+        } catch (Exception e) {
+            System.err.println("Error generating unique uid: " + e.getMessage());
+            return 0;
+        }
     }
 }

@@ -104,4 +104,14 @@ public class FileUserDataAccessObject implements ProfileDataAccessInterface {
     public int getUid() {
         return this.profile.getUid();
     }
+
+    @Override
+    public void setUid(int newUid) {
+        if (this.profile.getUid() == 0) {
+            Profile newProfile = new Profile(newUid, this.profile.getAverage_score(), this.profile.getGames_played());
+            this.profile = newProfile;
+            this.save();
+        }
+    }
+
 }

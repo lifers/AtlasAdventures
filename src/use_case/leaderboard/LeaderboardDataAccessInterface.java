@@ -12,4 +12,6 @@ public interface LeaderboardDataAccessInterface {
     public void updateProfile(Profile profile);
 
     public void addProfile(Profile profile);
+
+    public int generateNewUid();
 }

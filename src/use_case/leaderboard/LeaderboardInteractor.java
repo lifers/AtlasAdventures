@@ -27,6 +27,12 @@ public class LeaderboardInteractor implements LeaderboardInputBoundary {
             } else {
                 leaderboardDAO.addProfile(profile);
             }
+        } else {
+            // Give the Profile a new, unique uid and add the profile to the leaderboard
+            int uniqueUid = leaderboardDAO.generateNewUid();
+            profileDAO.setUid(uniqueUid);
+            Profile newProfile = new Profile(uniqueUid, profileDAO.getAverageScore(), profileDAO.getGamesPlayed());
+            leaderboardDAO.addProfile(newProfile);
         }
         ArrayList<Profile> leaderboardProfiles = leaderboardDAO.getLeaderboard();
         if (leaderboardProfiles.isEmpty()) {
