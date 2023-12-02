@@ -64,7 +64,6 @@ public class QuizEndedView extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Im here");
         if (Objects.requireNonNull(evt.getNewValue()) instanceof AnswerQuestionState state) {
             this.scoreText.setText(String.format("%.2f", state.getTotalScore()));
         } else {

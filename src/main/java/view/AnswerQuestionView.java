@@ -28,9 +28,9 @@ public class AnswerQuestionView extends JPanel implements PropertyChangeListener
     private final MouseAdapter mapClicker = this.createMapClicker();
     private Coordinate lastClick = null;
 
-    public AnswerQuestionView(AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
+    public AnswerQuestionView(AnswerQuestionController questionController, AnswerQuestionViewModel answerQuestionViewModel) {
         this.answerQuestionController = questionController;
-        this.answerQuestionViewModel = questionViewModel;
+        this.answerQuestionViewModel = answerQuestionViewModel;
         this.answerQuestionViewModel.addPropertyChangeListener(this);
 
         this.setLayout(new GridBagLayout());
@@ -154,15 +154,15 @@ public class AnswerQuestionView extends JPanel implements PropertyChangeListener
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case "answering" -> {
-                this.totalScore.setText("Total score: " + String.format("%.2f", this.questionViewModel.getState().getTotalScore()));
-                this.questionText.setText(this.questionViewModel.getState().getQuiz().getCurrQuestion().getPrompt());
+                this.totalScore.setText("Total score: " + String.format("%.2f", this.answerQuestionViewModel.getState().getTotalScore()));
+                this.questionText.setText(this.answerQuestionViewModel.getState().getQuiz().getCurrQuestion().getPrompt());
                 this.map().removeAllMapMarkers();
                 this.map().addMouseListener(this.mapClicker);
                 this.nextButton.setEnabled(false);
                 this.nextButton.setText(AnswerQuestionViewModel.NEXT_BUTTON_LABEL);
             }
             case "not answering" -> {
-                this.totalScore.setText("Total score: " + String.format("%.2f", this.questionViewModel.getState().getTotalScore()));
+                this.totalScore.setText("Total score: " + String.format("%.2f", this.answerQuestionViewModel.getState().getTotalScore()));
                 this.questionText.setText("Press Next");
             }
             default -> throw new IllegalStateException("Unexpected value: " + evt.getPropertyName());
