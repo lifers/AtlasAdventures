@@ -39,6 +39,10 @@ public interface ProfileDataAccessInterface {
      *
      * @throws IOException  If an input or output exception occurred
      */
+    public int getUid();
+
+    public void setUid(int newUid);
+
     public void update() throws IOException;
 
     public void save() throws IOException;
