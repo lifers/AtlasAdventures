@@ -141,7 +141,7 @@ class AnswerQuestionPresenterTest {
         var interceptor = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("answerQuestionState")) {
+                if (evt.getPropertyName().equals("answering")) {
                     assertEquals(answerQuestionViewModel, evt.getSource());
                     assertInstanceOf(AnswerQuestionState.class, evt.getNewValue());
                     assertEquals(state, evt.getNewValue());
@@ -165,7 +165,7 @@ class AnswerQuestionPresenterTest {
         var interceptor = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("answerQuestionState")) {
+                if (evt.getPropertyName().equals("not answering")) {
                     assertEquals(answerQuestionViewModel, evt.getSource());
                     assertInstanceOf(AnswerQuestionState.class, evt.getNewValue());
                     assertEquals(state, evt.getNewValue());
