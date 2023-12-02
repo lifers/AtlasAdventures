@@ -16,5 +16,6 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .idea
+.idea/workspace.xml
 .classpath
-maprendersample.iml
+atlasadventures.iml
