@@ -50,8 +50,10 @@ interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface {
         return null;
     }
 
+    @Override
     default int getUid() {fail(); return 0;}
 
+    @Override
     default void setUid(int newUid) {fail();}
 
 }
