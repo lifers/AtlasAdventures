@@ -81,8 +81,8 @@ public class Main {
         GeoInfoDataAccessObject spQuizDAO = new GeoInfoDataAccessObject();
 
         // Views
-        AnswerQuestionViewPair questionViewPair = QuestionUseCaseFactory.create(views, viewManagerModel, answerQuestionViewModel,
-                                                             spQuizViewModel, quizEndedViewModel);
+        AnswerQuestionViewPair questionViewPair = QuestionUseCaseFactory.create(viewManagerModel, answerQuestionViewModel,
+                                                             spQuizViewModel, quizEndedViewModel, profileDAO);
         views.add(questionViewPair.answerQuestionView(), AnswerQuestionView.viewName);
         views.add(questionViewPair.quizEndedView(), QuizEndedView.viewName);
         ProfileView profileView = new ProfileView(profileViewModel, viewManagerModel);
