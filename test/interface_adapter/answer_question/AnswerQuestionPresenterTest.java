@@ -49,6 +49,11 @@ interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface {
         fail("wrong function to call");
         return null;
     }
+
+    default int getUid() {fail(); return 0;}
+
+    default void setUid(int newUid) {fail();}
+
 }
 
 class AnswerQuestionPresenterTest {

@@ -28,6 +28,11 @@ interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface{
     default void update() throws IOException{}
 
     default void save() {fail();}
+
+    default int getUid() {fail(); return 0;}
+
+    default void setUid(int newUid) {fail();}
+
 }
 class ProfileInteractorTest {
 

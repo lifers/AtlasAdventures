@@ -113,5 +113,10 @@ public class LeaderboardInteractorTest {
         public void update() throws IOException {
 
         }
+
+        @Override
+        public void save() throws IOException {
+
+        }
     }
 }
