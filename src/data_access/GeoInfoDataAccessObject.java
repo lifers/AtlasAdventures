@@ -11,10 +11,10 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeoInfoAccessObject implements SPQuizDataAccessInterface {
+public class GeoInfoDataAccessObject implements SPQuizDataAccessInterface {
 
 
-    public GeoInfoAccessObject() {}
+    public GeoInfoDataAccessObject() {}
     @Override
     public List<List<String>> information() {
         List<List<String>> returnInfo = new ArrayList<>();
