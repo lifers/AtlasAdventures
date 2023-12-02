@@ -1,6 +1,5 @@
 package interface_adapter.answer_question;
 
-import entity.Profile;
 import entity.Question;
 import entity.Quiz;
 import interface_adapter.ViewManagerModel;
@@ -49,6 +48,17 @@ interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface {
         fail("wrong function to call");
         return null;
     }
+
+    @Override
+    default int getUid() {
+        fail("wrong function to call");
+        return -1;
+    }
+
+    @Override
+    default void setUid(int newUid) {
+        fail("wrong function to call");
+    }
 }
 
 class AnswerQuestionPresenterTest {
@@ -69,7 +79,7 @@ class AnswerQuestionPresenterTest {
                 new Question(new Coordinate(52, -1), "Where is England?"),
                 new Question(new Coordinate(56, -4), "Where is Scotland?")
         )));
-        answerQuestionViewModel.setState(this.state);
+        this.answerQuestionViewModel.setState(this.state);
     }
 
     @Test
