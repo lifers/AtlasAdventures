@@ -11,23 +11,36 @@ interface ProfileOutputBoundaryTest extends ProfileOutputBoundary{
     default void prepareSuccessView(ProfileOutputData outputData){ fail(); }
 }
 interface ProfileDataAccessInterfaceTest extends ProfileDataAccessInterface{
+    @Override
     default void setGamesPlayed(int gamesPlayed){fail();}
 
+    @Override
     default void setAverageScore(Double score){fail();}
 
+    @Override
     default int getGamesPlayed(){
         fail();
         return 0;
     }
 
+    @Override
     default Double getAverageScore(){
         fail();
         return 0.0;
     }
 
+    @Override
     default void update() throws IOException{}
 
+    @Override
     default void save() {fail();}
+
+    @Override
+    default int getUid() {fail(); return 0;}
+
+    @Override
+    default void setUid(int newUid) {fail();}
+
 }
 class ProfileInteractorTest {
 

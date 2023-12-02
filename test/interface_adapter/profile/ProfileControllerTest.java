@@ -19,7 +19,7 @@ interface ProfileInputBoundaryTest extends ProfileInputBoundary {
     default void execute(ProfileInputData inputData){ fail("wrong function to call");}
 }
 
-class AnswerQuestionControllerTest {
+class ProfileControllerTest {
     @Test
     void execute(){
         var interactor = new ProfileInputBoundaryTest() {

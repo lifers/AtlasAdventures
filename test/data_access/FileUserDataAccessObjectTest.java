@@ -20,6 +20,7 @@ class FileUserDataAccessObjectTest {
             FileUserDataAccessObject dataAccessObject = new FileUserDataAccessObject("test.csv");
             dataAccessObject.setAverageScore(7.2);
             dataAccessObject.setGamesPlayed(15);
+            dataAccessObject.setUid(5);
             dataAccessObject.save();
         } catch (IOException e){
             fail("Initializer error in FileUserDataAccessObject");
@@ -120,10 +121,12 @@ class FileUserDataAccessObjectTest {
             FileUserDataAccessObject dataAccessObject = new FileUserDataAccessObject("test2.csv");
             dataAccessObject.setAverageScore(3.5);
             dataAccessObject.setGamesPlayed(10);
+            dataAccessObject.setUid(4);
             dataAccessObject.save();
             FileUserDataAccessObject dao2 = new FileUserDataAccessObject("test2.csv");
             assertEquals(dao2.getAverageScore(), 3.5);
             assertEquals(dao2.getGamesPlayed(), 10);
+            assertEquals(dao2.getUid(), 4);
         }
         catch (IOException e){
             fail("Save/Initializer error in FileUserDataAccessObject");
