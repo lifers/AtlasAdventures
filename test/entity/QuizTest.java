@@ -27,6 +27,7 @@ class QuizTest {
         questions.add(question1);
         questions.add(question2);
         quiz = new Quiz(questions);
+        quiz.nextQuestion();
     }
 
     @Test
