@@ -54,6 +54,7 @@ class ProfileInteractorTest {
             public void prepareSuccessView(ProfileOutputData outputData) {
                 assertEquals(0.0, outputData.getAverageScore());
                 assertEquals(0, outputData.getAverageScore());
+                assertEquals(0, outputData.getUID());
             }
         }; // presenter
         ProfileDataAccessInterfaceTest dataAccess = new ProfileDataAccessInterfaceTest() {
@@ -67,6 +68,11 @@ class ProfileInteractorTest {
             }
             @Override
             public int getGamesPlayed() {
+                return 0;
+            }
+
+            @Override
+            public int getUid() {
                 return 0;
             }
 

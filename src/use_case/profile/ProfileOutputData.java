@@ -3,11 +3,13 @@ public class ProfileOutputData {
 
     private final double averageScore;
     private final int gamesPlayed;
+    private final int UID;
 
-    public ProfileOutputData(double averageScore, int gamesPlayed) {
-        this.averageScore = averageScore;
-        this.gamesPlayed = gamesPlayed;
-    }
+public ProfileOutputData(double averageScore, int gamesPlayed, int UID) {
+    this.averageScore = averageScore;
+    this.gamesPlayed = gamesPlayed;
+    this.UID = UID;
+}
 
     /**
      * Retrieves the average score.
@@ -25,5 +27,14 @@ public class ProfileOutputData {
      */
     public int getGamesPlayed() {
         return gamesPlayed;
+    }
+
+    /**
+     * Retrieves the UID of the object.
+     *
+     * @return the UID of the object
+     */
+    public int getUID() {
+        return UID;
     }
 }
