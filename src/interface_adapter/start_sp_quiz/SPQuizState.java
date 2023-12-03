@@ -9,9 +9,6 @@ public class SPQuizState {
         quiz = copy.quiz;
     }
 
-    // Because of the previous copy constructor, the default constructor must be explicit.
-    public SPQuizState() {}
-
     public Quiz getSPQuiz() {
         return quiz;
     }

@@ -29,6 +29,7 @@ class SPQuizInteractorTest {
         this.spQuizInteractor = new SPQuizInteractor(spQuizDataAccessObject, spQuizPresenter);
     }
 
+
     @Test
     void execute() {
         spQuizInteractor.execute();
