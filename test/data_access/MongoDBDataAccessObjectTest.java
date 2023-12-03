@@ -24,9 +24,6 @@ class MongoDBDataAccessObjectTest {
         }
     }
 
-    @AfterEach
-    void tearDown() {}
-
     @Test
     void insertionTest() {
         /**
