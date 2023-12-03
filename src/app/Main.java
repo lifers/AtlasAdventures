@@ -70,7 +70,7 @@ public class Main {
 
         String connectionString = "mongodb+srv://AtlasAdventuresPlayer:pumpkinpatch240@cluster0.xhpezmy.mongodb.net/?retryWrites=true&w=majority";
         String databaseName = "AtlasAdventures";
-        String collectionName = "test-leaderboard";
+        String collectionName = "leaderboard";
         MongoDBDataAccessObject leaderboardDAO = null;
         try {
             leaderboardDAO = new MongoDBDataAccessObject(connectionString, databaseName, collectionName);

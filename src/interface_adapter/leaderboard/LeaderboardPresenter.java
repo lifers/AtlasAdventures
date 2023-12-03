@@ -30,8 +30,9 @@ public class LeaderboardPresenter implements LeaderboardOutputBoundary {
     }
 
     @Override
-    public void prepareFailView() {
-        viewManagerModel.setActiveView(leaderboardViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+    public void prepareFailView(String error) {
+        LeaderboardState leaderboardState = leaderboardViewModel.getLeaderboardState();
+        leaderboardState.setError(error);
+        leaderboardViewModel.firePropertyChanged();
     }
 }

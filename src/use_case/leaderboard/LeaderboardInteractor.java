@@ -20,25 +20,25 @@ public class LeaderboardInteractor implements LeaderboardInputBoundary {
 
     @Override
     public void execute() {
-        Profile profile = new Profile(profileDAO.getUid(), profileDAO.getAverageScore(), profileDAO.getGamesPlayed());
-        if (profile.getUid() != 0) {
-            if (leaderboardDAO.uidExists(profile.getUid())) {
-                leaderboardDAO.updateProfile(profile);
+        try {
+            Profile profile = new Profile(profileDAO.getUid(), profileDAO.getAverageScore(), profileDAO.getGamesPlayed());
+            if (profile.getUid() != 0) {
+                if (leaderboardDAO.uidExists(profile.getUid())) {
+                    leaderboardDAO.updateProfile(profile);
+                } else {
+                    leaderboardDAO.addProfile(profile);
+                }
             } else {
-                leaderboardDAO.addProfile(profile);
+                // Give the Profile a new, unique uid and add the profile to the leaderboard
+                int uniqueUid = leaderboardDAO.generateNewUid();
+                profileDAO.setUid(uniqueUid);
+                Profile newProfile = new Profile(uniqueUid, profileDAO.getAverageScore(), profileDAO.getGamesPlayed());
+                leaderboardDAO.addProfile(newProfile);
             }
-        } else {
-            // Give the Profile a new, unique uid and add the profile to the leaderboard
-            int uniqueUid = leaderboardDAO.generateNewUid();
-            profileDAO.setUid(uniqueUid);
-            Profile newProfile = new Profile(uniqueUid, profileDAO.getAverageScore(), profileDAO.getGamesPlayed());
-            leaderboardDAO.addProfile(newProfile);
-        }
-        ArrayList<Profile> leaderboardProfiles = leaderboardDAO.getLeaderboard();
-        if (leaderboardProfiles.isEmpty()) {
-            leaderboardPresenter.prepareFailView();
-        } else {
+            ArrayList<Profile> leaderboardProfiles = leaderboardDAO.getLeaderboard();
             leaderboardPresenter.prepareSuccessView(leaderboardProfiles);
+        } catch (Exception e) {
+            leaderboardPresenter.prepareFailView(e.getMessage());
         }
     }
 }

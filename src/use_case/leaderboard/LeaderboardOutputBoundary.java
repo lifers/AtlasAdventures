@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public interface LeaderboardOutputBoundary {
     void prepareSuccessView(ArrayList<Profile> leaderboardProfiles);
-    void prepareFailView();
+    void prepareFailView(String error);
 }
