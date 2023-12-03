@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.leaderboard.LeaderboardState;
 import interface_adapter.profile.ProfileController;
 import interface_adapter.profile.ProfileViewModel;
 import interface_adapter.leaderboard.LeaderboardController;
@@ -99,6 +100,11 @@ public class MainMenuView extends JPanel implements PropertyChangeListener {
             SPQuizState state = (SPQuizState) evt.getNewValue();
             if (state.getSPQuiz() == null) {
                 JOptionPane.showMessageDialog(this, "Error: Failed to create quiz.");
+            }
+        } else if (evt.getPropertyName().equals("leaderboard state")) {
+            LeaderboardState state = (LeaderboardState) evt.getNewValue();
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, "Error: Failed to access database.");
             }
         }
     }
