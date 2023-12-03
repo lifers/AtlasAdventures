@@ -10,6 +10,9 @@ public class ProfileController {
         this.profileInteractor = profileInteractor;
     }
 
+    /**
+     * Executes the interactor usecase.
+     */
     public void execute(){
         ProfileInputData inputData = new ProfileInputData();
         profileInteractor.execute(inputData);

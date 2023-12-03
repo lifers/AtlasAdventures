@@ -1,6 +1,6 @@
 package use_case.start_sp_quiz;
 
-import data_access.GeoInfoAccessObject;
+import data_access.GeoInfoDataAccessObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -16,7 +16,7 @@ class SPQuizDataAccessInterfaceTest {
     public SPQuizDataAccessInterface SPQuizDataAccessObject;
     @BeforeEach
     void init() {
-        this.SPQuizDataAccessObject = new GeoInfoAccessObject();
+        this.SPQuizDataAccessObject = new GeoInfoDataAccessObject();
     }
     @Test
     void information() {

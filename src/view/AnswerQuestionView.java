@@ -2,25 +2,24 @@ package view;
 
 import com.formdev.flatlaf.ui.FlatUIUtils;
 import interface_adapter.answer_question.AnswerQuestionController;
-import interface_adapter.answer_question.AnswerQuestionState;
 import interface_adapter.answer_question.AnswerQuestionViewModel;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.JMapViewerTree;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
-import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
-import org.openstreetmap.gui.jmapviewer.interfaces.JMapViewerEventListener;
+import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class AnswerQuestionView extends JPanel implements ActionListener, PropertyChangeListener, JMapViewerEventListener {
+public class AnswerQuestionView extends JPanel implements PropertyChangeListener {
     public static final String viewName = "AnswerQuestionView";
-    private final AnswerQuestionController questionController;
-    private final AnswerQuestionViewModel questionViewModel;
+    private final AnswerQuestionController answerQuestionController;
+    private final AnswerQuestionViewModel answerQuestionViewModel;
     private final JMapViewerTree treeMap = createTreeMap();
     private final JLabel totalScore = createTotalScore();
     private final JTextArea questionText = createQuestionText();
@@ -29,47 +28,43 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     private final MouseAdapter mapClicker = this.createMapClicker();
     private Coordinate lastClick = null;
 
-    public AnswerQuestionView(JPanel parent, AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
-        this.questionController = questionController;
-        this.questionViewModel = questionViewModel;
-        this.questionViewModel.addPropertyChangeListener(this);
+    public AnswerQuestionView(AnswerQuestionController questionController, AnswerQuestionViewModel questionViewModel) {
+        this.answerQuestionController = questionController;
+        this.answerQuestionViewModel = questionViewModel;
+        this.answerQuestionViewModel.addPropertyChangeListener(this);
 
-        this.setSize(600, 400);
-        this.setLayout(new BorderLayout());
-        this.add(treeMap, BorderLayout.EAST);
+        this.setLayout(new GridBagLayout());
 
         var questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.PAGE_AXIS));
-        questionPanel.setPreferredSize(new Dimension(200, 400));
-        preventExcessiveWidthShrink(parent, questionPanel, this.treeMap, 200);
-
-        this.add(questionPanel, BorderLayout.WEST);
+        questionPanel.setPreferredSize(new Dimension(200, 0));
+        questionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         questionPanel.add(this.questionText);
         questionPanel.add(Box.createVerticalGlue());
         questionPanel.add(this.submitButton);
         questionPanel.add(this.nextButton);
         questionPanel.add(this.totalScore);
+
+        var gbQuestionPanel = new GridBagConstraints();
+        gbQuestionPanel.gridx = 0;
+        gbQuestionPanel.fill = GridBagConstraints.VERTICAL;
+        gbQuestionPanel.anchor = GridBagConstraints.CENTER;
+        gbQuestionPanel.weighty = 1;
+
+        var gbTreeMap = new GridBagConstraints();
+        gbTreeMap.gridx = 1;
+        gbTreeMap.fill = GridBagConstraints.BOTH;
+        gbTreeMap.anchor = GridBagConstraints.CENTER;
+        gbTreeMap.weightx = 1;
+        gbTreeMap.weighty = 1;
+
+        this.add(questionPanel, gbQuestionPanel);
+        this.add(this.treeMap, gbTreeMap);
     }
 
     private JMapViewer map() {
         return treeMap.getViewer();
-    }
-
-    private static void preventExcessiveWidthShrink(Component parent, Component leftThird, Component rightThird,
-                                                    int leftMinWidth) {
-        parent.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                var parentWidth = parent.getWidth();
-                var leftWidth = Math.max(leftMinWidth, parentWidth / 3);
-                var rightWidth = parentWidth - leftWidth;
-                leftThird.setPreferredSize(new Dimension(leftWidth, leftThird.getHeight()));
-                rightThird.setPreferredSize(new Dimension(rightWidth, rightThird.getHeight()));
-                parent.revalidate();
-                parent.repaint();
-            }
-        });
     }
 
     private JMapViewerTree createTreeMap() {
@@ -87,7 +82,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
                 map.getViewer().setToolTipText(map.getViewer().getPosition(p).toString());
             }
         });
-        map.getViewer().addJMVListener(this);
+        map.getViewer().setTileSource(new BingAerialTileSource());
         return map;
     }
 
@@ -114,7 +109,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
         button.setAlignmentX(CENTER_ALIGNMENT);
         button.setEnabled(false);
         button.addActionListener(e -> {
-            this.questionController.answer(this.lastClick);
+            this.answerQuestionController.answer(this.lastClick);
             this.nextButton.setEnabled(true);
             button.setEnabled(false);
             this.map().removeMouseListener(this.mapClicker);
@@ -126,7 +121,7 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
         var button = new JButton(AnswerQuestionViewModel.START_BUTTON_LABEL);
         button.setFont(FlatUIUtils.nonUIResource(UIManager.getFont("h2.font")));
         button.setAlignmentX(CENTER_ALIGNMENT);
-        button.addActionListener(e -> this.questionController.nextQuestion());
+        button.addActionListener(e -> this.answerQuestionController.nextQuestion());
         return button;
     }
 
@@ -150,16 +145,6 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
     }
 
     /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("Click " + e.getActionCommand());
-    }
-
-    /**
      * This method gets called when a bound property is changed.
      *
      * @param evt A PropertyChangeEvent object describing the event source
@@ -167,28 +152,20 @@ public class AnswerQuestionView extends JPanel implements ActionListener, Proper
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getNewValue()) {
-            case AnswerQuestionState state when state.isAnswering() -> {
-                this.totalScore.setText("Total score: " + String.format("%.2f", state.getTotalScore()));
-                this.questionText.setText(state.getQuiz().getCurrQuestion().getPrompt());
+        switch (evt.getPropertyName()) {
+            case "answering" -> {
+                this.totalScore.setText("Total score: " + String.format("%.2f", this.answerQuestionViewModel.getState().getTotalScore()));
+                this.questionText.setText(this.answerQuestionViewModel.getState().getQuiz().getCurrQuestion().getPrompt());
                 this.map().removeAllMapMarkers();
                 this.map().addMouseListener(this.mapClicker);
                 this.nextButton.setEnabled(false);
                 this.nextButton.setText(AnswerQuestionViewModel.NEXT_BUTTON_LABEL);
             }
-            case AnswerQuestionState state when !state.isAnswering() -> {
-                this.totalScore.setText("Total score: " + String.format("%.2f", state.getTotalScore()));
+            case "not answering" -> {
+                this.totalScore.setText("Total score: " + String.format("%.2f", this.answerQuestionViewModel.getState().getTotalScore()));
                 this.questionText.setText("Press Next");
             }
-            default -> throw new IllegalStateException("Unexpected value: " + evt.getNewValue());
+            default -> throw new IllegalStateException("Unexpected value: " + evt.getPropertyName());
         }
-    }
-
-    /**
-     * @param jmvCommandEvent
-     */
-    @Override
-    public void processCommand(JMVCommandEvent jmvCommandEvent) {
-
     }
 }

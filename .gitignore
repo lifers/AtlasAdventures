@@ -1,4 +1,5 @@
 target/
+.idea/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -14,4 +15,7 @@ buildNumber.properties
 # Eclipse Core
 .project
 # JDT-specific (Eclipse Java Development Tools)
+.idea
+.idea/workspace.xml
 .classpath
+atlasadventures.iml

@@ -9,6 +9,7 @@ public class AnswerQuestionViewModel extends ViewModel {
     public static final String SUBMIT_BUTTON_LABEL = "Submit";
     public static final String NEXT_BUTTON_LABEL = "Next";
     public static final String START_BUTTON_LABEL = "Start";
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private AnswerQuestionState state;
 
     public AnswerQuestionViewModel() {
@@ -23,14 +24,20 @@ public class AnswerQuestionViewModel extends ViewModel {
         this.state = state;
     }
 
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private String makePropertyName() {
+        if (this.state.isAnswering()) {
+            return "answering";
+        } else {
+            return "not answering";
+        }
+    }
 
     /**
      *
      */
     @Override
     public void firePropertyChanged() {
-        support.firePropertyChange("state", null, this.state);
+        support.firePropertyChange(this.makePropertyName(), null, this.state);
     }
 
     /**
