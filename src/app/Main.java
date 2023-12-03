@@ -68,12 +68,12 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        String connectionString = "mongodb+srv://AtlasAdventuresPlayer:pumpkinpatch240@cluster0.xhpezmy.mongodb.net/?retryWrites=true&w=majority";
+        String databaseName = "AtlasAdventures";
+        String collectionName = "leaderboard";
         MongoDBDataAccessObject leaderboardDAO = null;
         try {
-            leaderboardDAO = new MongoDBDataAccessObject(
-                    "mongodb://localhost:27017",
-                    "atlas-adventures-leaderbaord",
-                    "leaderboard");
+            leaderboardDAO = new MongoDBDataAccessObject(connectionString, databaseName, collectionName);
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
