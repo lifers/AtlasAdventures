@@ -6,6 +6,9 @@ import use_case.profile.ProfileDataAccessInterface;
 import java.util.ArrayList;
 
 public class LeaderboardInteractor implements LeaderboardInputBoundary {
+    /**
+     * Interactor for the leaderboard use case.
+     */
     final LeaderboardOutputBoundary leaderboardPresenter;
     final LeaderboardDataAccessInterface leaderboardDAO;
     final ProfileDataAccessInterface profileDAO;
@@ -18,6 +21,13 @@ public class LeaderboardInteractor implements LeaderboardInputBoundary {
         this.profileDAO = profileDAO;
     }
 
+    /**
+     * Checks if the user's profile is the default profile (uid = 0). If it is, generates a new, unique
+     * uid and adds the profile to the database. If it is not, checks if the profile already exists in the
+     * database and either adds it or updates the existing profile.
+     * Then, it retrieves the top 10 profiles with the highest average scores from the database and passes
+     * it to the presenter.
+     */
     @Override
     public void execute() {
         try {

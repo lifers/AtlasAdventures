@@ -20,6 +20,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+/**
+ * View for the Leaderboard page.
+ */
 public class LeaderboardView extends JPanel implements PropertyChangeListener {
     public final String viewName;
     private final LeaderboardViewModel leaderboardViewModel;
@@ -74,15 +77,25 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         this.add(scrollPane);
         this.add(buttons);
     }
-
+    /**
+     * When the leaderboard state changes, update the leaderboard.
+     *
+     * @param  evt  the property change event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("leaderboard state")) {
             LeaderboardState state = (LeaderboardState) evt.getNewValue();
-            updateTableModel(state.getLeaderboard());
+            if (state.getError() == null) {
+                updateTableModel(state.getLeaderboard());
+            }
         }
     }
-
+    /**
+     * Helper method for updating the leaderboard with updated data from the database.
+     *
+     * @param  newLeaderboard  a sorted ArrayList of profiles to be displayed on the leaderboard.
+     */
     private void updateTableModel(ArrayList<Profile> newLeaderboard) {
         // Clear existing data
         table.setRowCount(0);

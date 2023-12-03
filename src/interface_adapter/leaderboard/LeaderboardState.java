@@ -9,18 +9,35 @@ public class LeaderboardState {
     private String error = null;
 
     public LeaderboardState() {}
-
+    /**
+     * Sets the leaderboard.
+     *
+     * @param  leaderboard  An ArrayList of Profile objects representing the new leaderboard.
+     */
     public void setLeaderboard(ArrayList<Profile> leaderboard) {
         this.leaderboard = leaderboard;
     }
+    /**
+     * Returns the leaderboard as an ArrayList of Profile objects.
+     *
+     * @return  the leaderboard as an ArrayList of Profile objects
+     */
     public ArrayList<Profile> getLeaderboard() {
         return leaderboard;
     }
-
+    /**
+     * Retrieves the error message associated with this object.
+     *
+     * @return the error message
+     */
     public String getError() {
         return error;
     }
-
+    /**
+     * Sets the error message for this object.
+     *
+     * @param  error  the error message to be set
+     */
     public void setError(String error) {
         this.error = error;
     }
