@@ -53,6 +53,10 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
         this.table = new DefaultTableModel(leaderboardEntries, columnNames);
         JTable leaderboardTable = new JTable(table);
+        leaderboardTable.setEnabled(false);
+        leaderboardTable.setCellSelectionEnabled(false);
+        leaderboardTable.setRowSelectionAllowed(false);
+        leaderboardTable.setColumnSelectionAllowed(false);
 
         JScrollPane scrollPane = new JScrollPane(leaderboardTable);
 
