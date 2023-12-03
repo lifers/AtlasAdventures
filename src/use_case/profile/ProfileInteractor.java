@@ -31,8 +31,9 @@ public class ProfileInteractor implements ProfileInputBoundary{
         }
         double score = dataAccessObject.getAverageScore();
         int gamesPlayed = dataAccessObject.getGamesPlayed();
+        int UID = dataAccessObject.getUid();
         // pass the profile to the presenter to get displayed
-        ProfileOutputData outputData = new ProfileOutputData(score, gamesPlayed);
+        ProfileOutputData outputData = new ProfileOutputData(score, gamesPlayed, UID);
 
         profilePresenter.prepareSuccessView(outputData);
     }

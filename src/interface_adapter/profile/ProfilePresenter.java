@@ -23,7 +23,8 @@ public class ProfilePresenter implements ProfileOutputBoundary {
     public void prepareSuccessView(ProfileOutputData outputData) {
         int gamesPlayed = outputData.getGamesPlayed();
         double score = outputData.getAverageScore();
-        String text = "Games Played: " + String.valueOf(gamesPlayed) + "       Average Score: " + String.format("%.2f", score);
+        int UID = outputData.getUID();
+        String text = "Profile Number: " + String.valueOf(UID) + "      Games Played: " + String.valueOf(gamesPlayed) + "       Average Score: " + String.format("%.2f", score);
         profileViewModel.setDisplayText(text);
         profileViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(profileViewModel.getViewName());
