@@ -20,6 +20,9 @@ import static com.mongodb.client.model.Updates.combine;
 import static java.lang.reflect.Array.set;
 
 public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, AutoCloseable {
+    /**
+     * This class provides a MongoDB implementation of the LeaderboardDataAccessInterface.
+     */
     private final MongoClient mongoClient;
     private final MongoDatabase database;
     private final MongoCollection<Document> collection;
@@ -33,7 +36,6 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
                 .applyConnectionString(new ConnectionString(connectionString))
                 .serverApi(serverApi)
                 .build();
-        // Create a new client and connect to the server
 
         this.mongoClient = MongoClients.create(settings);
         this.database = mongoClient.getDatabase(databaseName);
@@ -57,10 +59,22 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
     }
 
     public void clearCollection() {
+        /**
+         * Clears the leaderboard.
+         *
+         * @param  None    This function does not take any parameters.
+         * @return void    This function does not return any value.
+         */
         collection.deleteMany(new Document());
     }
     @Override
     public void close() {
+        /**
+         * Closes the MongoDB client connection.
+         *
+         * @param  None.
+         * @return None.
+         */
         if (mongoClient != null) {
             mongoClient.close();
         }
@@ -68,6 +82,12 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
 
     @Override
     public ArrayList<Profile> getLeaderboard() {
+        /**
+         * Sorts the profiles in the database by average score in descending order
+         * and returns the top 10 profiles.
+         *
+         * @return  an ArrayList of Profile objects representing the leaderboard
+         */
         ArrayList<Profile> leaderboard = new ArrayList<>();
         collection.find()
                 .sort(new Document("avgScore", -1))
@@ -84,12 +104,23 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
 
     @Override
     public boolean uidExists(int uid) {
+        /**
+         * Checks if the given UID exists in the database.
+         *
+         * @param  uid  the UID to check
+         * @return      true if the UID exists, false otherwise
+         */
         Document doc = collection.find(new Document("uid", uid)).first();
         return doc != null;
     }
 
     @Override
     public void updateProfile(Profile profile) {
+        /**
+         * Updates the avgScore and gamesPlayed fields of a given profile in the database.
+         *
+         * @param  profile  the profile object containing the updated information
+         */
         Document query = new Document("uid", profile.getUid());
         Bson updates = Updates.combine(
                 Updates.set("avgScore", profile.getAverage_score()),
@@ -102,7 +133,11 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
 
     @Override
     public void addProfile(Profile profile) {
-        LinkedHashMap<String, Object> profileDict = new LinkedHashMap<>();
+        /**
+         * Adds a profile to the database.
+         *
+         * @param  profile  the profile to be added
+         */
         Document profileDoc = new Document();
         profileDoc.append("uid", profile.getUid());
         profileDoc.append("avgScore", profile.getAverage_score());
@@ -112,6 +147,11 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
 
     @Override
     public int generateNewUid() {
+        /**
+         * Generates a new unique ID.
+         *
+         * @return  the newly generated unique ID
+         */
         Document largestUidDoc = collection.find().sort(new Document("uid", -1)).first();
         if (largestUidDoc != null) {
             int largestUid = largestUidDoc.getInteger("uid");
