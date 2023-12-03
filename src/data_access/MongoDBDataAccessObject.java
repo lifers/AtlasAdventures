@@ -1,4 +1,5 @@
 package data_access;
+import com.mongodb.*;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -25,39 +26,38 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
     private final Comparator<Profile> profileComparator;
 
     public MongoDBDataAccessObject(String connectionString, String databaseName, String collectionName) {
-        this.mongoClient = MongoClients.create(connectionString);
+        ServerApi serverApi = ServerApi.builder()
+                .version(ServerApiVersion.V1)
+                .build();
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(connectionString))
+                .serverApi(serverApi)
+                .build();
+        // Create a new client and connect to the server
+
+        this.mongoClient = MongoClients.create(settings);
         this.database = mongoClient.getDatabase(databaseName);
         this.collection = database.getCollection(collectionName);
+
+        try {
+            // Send a ping to confirm a successful connection
+            database.runCommand(new Document("ping", 1));
+            System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+
+        // Create a comparator that sorts by average score in descending order
         this.profileComparator = new Comparator<Profile>() {
-            // Sorts in descending order
             @Override
             public int compare(Profile p1, Profile p2) {
-                if(p1.getAverage_score() < p2.getAverage_score()) {
-                    return 1;
-                } else if (p1.getAverage_score() > p2.getAverage_score()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+                return Double.compare(p2.getAverage_score(), p1.getAverage_score());
             }
         };
     }
 
-    private void insertDocument(Document document) {
-        try {
-            collection.insertOne(document);
-            System.out.println("Document inserted successfully!");
-        } catch (Exception e) {
-            System.err.println("Error inserting document: " + e.getMessage());
-        }
-    }
-
     public void clearCollection() {
-        try {
-            collection.deleteMany(new Document());
-        } catch (Exception e) {
-            System.err.println("Error clearing collection: " + e.getMessage());
-        }
+        collection.deleteMany(new Document());
     }
     @Override
     public void close() {
@@ -69,37 +69,23 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
     @Override
     public ArrayList<Profile> getLeaderboard() {
         ArrayList<Profile> leaderboard = new ArrayList<>();
-        try {
-            collection.find()
-                    .sort(new Document("avgScore", -1))
-                    .limit(10)
-                    .forEach(doc -> {
-                        int uid = doc.getInteger("uid");
-                        double avgScore = doc.getDouble("avgScore");
-                        int gamesPlayed = doc.getInteger("gamesPlayed");
-                        leaderboard.add(new Profile(uid, avgScore, gamesPlayed));
-                    });
-            leaderboard.sort(profileComparator);
-            return leaderboard;
-        } catch (Exception e) {
-            System.err.println("Error finding documents: " + e.getMessage());
-            return new ArrayList<>();
-        }
+        collection.find()
+                .sort(new Document("avgScore", -1))
+                .limit(10)
+                .forEach(doc -> {
+                    int uid = doc.getInteger("uid");
+                    double avgScore = doc.getDouble("avgScore");
+                    int gamesPlayed = doc.getInteger("gamesPlayed");
+                    leaderboard.add(new Profile(uid, avgScore, gamesPlayed));
+                });
+        leaderboard.sort(profileComparator);
+        return leaderboard;
     }
 
     @Override
     public boolean uidExists(int uid) {
-        try {
-            Document doc = collection.find(new Document("uid", uid)).first();
-            if (doc != null) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            System.err.println("Error accessing database :" + e.getMessage());
-            return false;
-        }
+        Document doc = collection.find(new Document("uid", uid)).first();
+        return doc != null;
     }
 
     @Override
@@ -110,11 +96,8 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
                 Updates.set("gamesPlayed", profile.getGames_played())
         );
         UpdateOptions options = new UpdateOptions().upsert(true);
-        try {
-            collection.updateOne(query, updates, options);
-        } catch (Exception e) {
-            System.err.println("Error updating document: " + e.getMessage());
-        }
+
+        collection.updateOne(query, updates, options);
     }
 
     @Override
@@ -124,22 +107,17 @@ public class MongoDBDataAccessObject implements LeaderboardDataAccessInterface, 
         profileDoc.append("uid", profile.getUid());
         profileDoc.append("avgScore", profile.getAverage_score());
         profileDoc.append("gamesPlayed", profile.getGames_played());
-        insertDocument(profileDoc);
+        collection.insertOne(profileDoc);
     }
 
     @Override
     public int generateNewUid() {
-        try {
-            Document largestUidDoc = collection.find().sort(new Document("uid", -1)).first();
-            if (largestUidDoc != null) {
-                int largestUid = largestUidDoc.getInteger("uid");
-                return largestUid + 1;
-            } else {
-                return 1;
-            }
-        } catch (Exception e) {
-            System.err.println("Error generating unique uid: " + e.getMessage());
-            return 0;
+        Document largestUidDoc = collection.find().sort(new Document("uid", -1)).first();
+        if (largestUidDoc != null) {
+            int largestUid = largestUidDoc.getInteger("uid");
+            return largestUid + 1;
+        } else {
+            return 1;
         }
     }
 }
