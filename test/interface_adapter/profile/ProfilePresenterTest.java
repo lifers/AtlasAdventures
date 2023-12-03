@@ -24,7 +24,7 @@ public class ProfilePresenterTest {
 
     @Test
     void prepareSuccessView() {
-        ProfileOutputData outputData = new ProfileOutputData(500, 10);
+        ProfileOutputData outputData = new ProfileOutputData(500, 10, 6);
         ProfilePresenter presenter = new ProfilePresenter(this.profileViewModel, this.viewManagerModel);
 
         var interceptor = new PropertyChangeListener() {
