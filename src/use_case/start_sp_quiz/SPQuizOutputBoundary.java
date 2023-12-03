@@ -4,5 +4,4 @@ public interface SPQuizOutputBoundary {
 
     void prepareSuccessView(SPQuizOutputData SPQuizOutputData);
 
-    void prepareFailView();
 }

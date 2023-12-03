@@ -30,7 +30,4 @@ public class SPQuizPresenter implements SPQuizOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-    @Override
-    public void prepareFailView() {
-    }
 }
