@@ -29,22 +29,8 @@ public class QuizBuilder {
         }
         already_countries.add(newInfo.get(0));
 
-        if (questionGenerator instanceof CountryQuestion ) {
-            Double latitude = Double.valueOf(newInfo.get(1));
-            Double longitude = Double.valueOf(newInfo.get(2));
-            Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            quiz.addQuestion(questionGenerator.generateQuestion(newCoordinate, newInfo.get(0)));
-        } else if (questionGenerator instanceof CapitalQuestion) {
-            Double latitude = Double.valueOf(newInfo.get(1));
-            Double longitude = Double.valueOf(newInfo.get(2));
-            Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            quiz.addQuestion(questionGenerator.generateQuestion(newCoordinate, newInfo.get(3)));
-        } else {
-            Double latitude = Double.valueOf(newInfo.get(1));
-            Double longitude = Double.valueOf(newInfo.get(2));
-            Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            quiz.addQuestion(questionGenerator.generateQuestion(newCoordinate, newInfo.get(4)));
-        }
+
+        quiz.addQuestion(questionGenerator.generateQuestion(newInfo));
 
     }
     public Quiz getQuiz() {
