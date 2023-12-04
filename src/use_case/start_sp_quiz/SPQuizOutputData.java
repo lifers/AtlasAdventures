@@ -8,6 +8,11 @@ public class SPQuizOutputData {
         this.quiz = quiz;
     }
 
+    /**
+     * Retrieves the Quiz object associated with this class.
+     *
+     * @return          The Quiz object associated with this class.
+     */
     public Quiz getQuiz() {
         return this.quiz;
     }

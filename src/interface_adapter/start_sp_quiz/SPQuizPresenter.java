@@ -18,6 +18,11 @@ public class SPQuizPresenter implements SPQuizOutputBoundary {
         this.questionViewModel = questionViewModel;
     }
 
+    /**
+     * Sets the quiz into a state and sets that as the state of questionViewModel.
+     *
+     * @param  SPQuizOutputData  The SPQuizOutputData
+     */
     @Override
     public void prepareSuccessView(SPQuizOutputData SPQuizOutputData) {
         // For the following to work, the ViewModel viewName must be the same as the View viewName

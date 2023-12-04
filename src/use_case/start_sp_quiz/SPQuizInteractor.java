@@ -15,6 +15,11 @@ public class SPQuizInteractor implements SPQuizInputBoundary {
         this.SPQuizDataAccessObject = SPQuizDataAccessObject;
         this.SPQuizPresenter = SPQuizPresenter;
     }
+    /**
+     * This function calls the quizBuilder ten times with 3 different
+     * randomly chosen QuestionGenerator implementations.
+     *
+     */
     @Override
     public void execute() {
         List<Question> questions = new ArrayList<>();
