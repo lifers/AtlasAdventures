@@ -5,6 +5,7 @@ import entity.Question;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SPQuizInteractor implements SPQuizInputBoundary {
     private final SPQuizDataAccessInterface SPQuizDataAccessObject;
@@ -20,7 +21,15 @@ public class SPQuizInteractor implements SPQuizInputBoundary {
         Quiz quiz = new Quiz(questions);
         QuizBuilder quizBuilder = new QuizBuilder(quiz, SPQuizDataAccessObject);
         for (int i = 0; i < length; i++) {
-            quizBuilder.buildQuestion();
+            Random rand = new Random();
+            int randomNumber = rand.nextInt(3);
+            if (randomNumber == 0) {
+                quizBuilder.buildQuestion(new CountryQuestion());
+            } else if (randomNumber == 1) {
+                quizBuilder.buildQuestion(new CapitalQuestion());
+            } else {
+                quizBuilder.buildQuestion(new AbbreviationQuestion());
+            }
         }
 
         SPQuizOutputData outputData = new SPQuizOutputData(quiz);

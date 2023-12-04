@@ -22,35 +22,28 @@ public class QuizBuilder {
         this.already_countries = new ArrayList<>();
     }
 
-    public void buildQuestion() {
+    public void buildQuestion(QuestionGenerator questionGenerator) {
         List<String> newInfo = SPQuizDataAccessObject.information();
         while (already_countries.contains(newInfo.get(0))) {
             newInfo = SPQuizDataAccessObject.information();
         }
         already_countries.add(newInfo.get(0));
-        Random rand = new Random();
-        int randomNumber = rand.nextInt(3);
-        if (randomNumber == 0) {
+
+        if (questionGenerator instanceof CountryQuestion ) {
             Double latitude = Double.valueOf(newInfo.get(1));
             Double longitude = Double.valueOf(newInfo.get(2));
             Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            String prompt = "Click on the country: " + newInfo.get(0);
-            Question newQuestion = new Question(newCoordinate, prompt);
-            quiz.addQuestion(newQuestion);
-        } else if (randomNumber == 1) {
+            quiz.addQuestion(questionGenerator.generateQuestion(newCoordinate, newInfo.get(0)));
+        } else if (questionGenerator instanceof CapitalQuestion) {
             Double latitude = Double.valueOf(newInfo.get(1));
             Double longitude = Double.valueOf(newInfo.get(2));
             Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            String prompt = "Click on the country who's capital is: " + newInfo.get(3);
-            Question newQuestion = new Question(newCoordinate, prompt);
-            quiz.addQuestion(newQuestion);
+            quiz.addQuestion(questionGenerator.generateQuestion(newCoordinate, newInfo.get(3)));
         } else {
             Double latitude = Double.valueOf(newInfo.get(1));
             Double longitude = Double.valueOf(newInfo.get(2));
             Coordinate newCoordinate = new Coordinate(latitude, longitude);
-            String prompt = "Click on the country who's abbreviation is: " + newInfo.get(4);
-            Question newQuestion = new Question(newCoordinate, prompt);
-            quiz.addQuestion(newQuestion);
+            quiz.addQuestion(questionGenerator.generateQuestion(newCoordinate, newInfo.get(4)));
         }
 
     }
