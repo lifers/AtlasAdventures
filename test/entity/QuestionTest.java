@@ -29,4 +29,9 @@ class QuestionTest {
         question.setScore(5);
         assertEquals(5, question.getScore());
     }
+
+    @Test
+    void getPrompt() {
+        assertEquals("Find country X", question.getPrompt());
+    }
 }
