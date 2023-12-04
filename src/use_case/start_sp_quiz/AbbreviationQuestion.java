@@ -6,6 +6,12 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import java.util.List;
 
 public class AbbreviationQuestion implements QuestionGenerator {
+    /**
+     * Generates a question using the provided list of strings, which is the data received from the GeoInfoDataAccessObject.
+     *
+     * @param  list  a list of strings containing the necessary information to generate the question
+     * @return       the generated question
+     */
     @Override
     public Question generateQuestion(List<String> list) {
         Double latitude = Double.valueOf(list.get(1));

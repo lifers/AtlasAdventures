@@ -15,6 +15,12 @@ public class GeoInfoDataAccessObject implements SPQuizDataAccessInterface {
 
 
     public GeoInfoDataAccessObject() {}
+    /**
+     * Retrieves information about a country from the CountryStateCity API.
+     *
+     * @return  a list of strings containing the country name, latitude, longitude,
+     *          capital, and iso3 code.
+     */
     @Override
     public List<String> information() {
         List<String> returnInfo = new ArrayList<>();

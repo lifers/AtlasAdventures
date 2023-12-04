@@ -8,6 +8,9 @@ public class SPQuizController {
         this.spQuizInteractor = spQuizInteractor;
     }
 
+    /**
+     * Execute the spQuizInteractor execute function.
+     */
     public void execute() {
         spQuizInteractor.execute();
     }
