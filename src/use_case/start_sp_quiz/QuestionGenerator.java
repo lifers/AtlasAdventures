@@ -6,5 +6,5 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import java.util.List;
 
 public interface QuestionGenerator {
-    public Question generateQuestion(List<String> list);
+    Question generateQuestion(List<String> list);
 }
