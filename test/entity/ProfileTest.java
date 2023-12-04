@@ -12,7 +12,7 @@ class ProfileTest {
 
     @BeforeEach
     void init() {
-        profile = new Profile(90d, 10);
+        profile = new Profile(20, 90d, 10);
     }
 
     @Test
@@ -35,5 +35,24 @@ class ProfileTest {
     void setGames_played() {
         profile.setGames_played(11);
         assertEquals(11, profile.getGames_played());
+    }
+
+    @Test
+    void toStringFunction() {
+        assertEquals("Profile{" +
+                "uid='" + "20" + '\'' +
+                ", avgScore='" + "90.0" + '\'' +
+                ", gamesPlayed=" + 10 +
+                '}', profile.toString());
+    }
+    @Test
+    void equalsTrue() {
+        Profile new_profile = profile;
+        assertTrue(profile.equals(new_profile));
+    }
+
+    @Test
+    void notEquals() {
+        assertFalse(profile.equals(null));
     }
 }

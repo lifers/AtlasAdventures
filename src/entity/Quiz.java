@@ -4,12 +4,17 @@ import java.util.List;
 
 public class Quiz {
     private final List<Question> questions;
-    private final int length;
+    private int length;
     private int currQuestionIndex = -1;
 
     public Quiz(List<Question> questions) {
         this.questions = questions;
         this.length = questions.size();
+    }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+        length += 1;
     }
 
     public Question getCurrQuestion() {
