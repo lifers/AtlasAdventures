@@ -75,7 +75,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        this.setSize(400,400);
+        this.setSize(600,600);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(scrollPane);
@@ -107,7 +107,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         // Populate the table with new data
         for (int i = 0; i < newLeaderboard.size(); i++) {
             Profile p = newLeaderboard.get(i);
-            Object[] leaderboardEntry = {"Player" + p.getUid(), p.getAverage_score(), p.getGames_played()};
+            double roundedScore = Math.round(p.getAverage_score() * 100.0) / 100.0;
+            Object[] leaderboardEntry = {"Player" + p.getUid(), roundedScore, p.getGames_played()};
             table.addRow(leaderboardEntry);
         }
     }
